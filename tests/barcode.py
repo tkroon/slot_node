@@ -12,7 +12,7 @@ while(display.isNotDone()):
 
  barcode = img.findBarcode() #finds barcode data from image
  if(barcode is not None): #if there is some data processed
-   os.system('espeak -ven+f3 "Card Scanned"')
+   #os.system('espeak -ven+f3 "Card Scanned"')
    barcode = barcode[0] 
    result = str(barcode.data)
    r=requests.get(url+result)
