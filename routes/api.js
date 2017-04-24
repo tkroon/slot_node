@@ -2,16 +2,12 @@ var express = require('express');
 var sqlite3 = require('sqlite3').verbose();
 var router = express.Router();
 
-//green = new Gpio(26, 'out'),
-//red = new Gpio(5, 'out'),
-//barcode = new Gpio(19, 'out'),
-
 var Gpio = require('onoff').Gpio,
-arm = new Gpio(13, 'in', 'falling');
+arm = new Gpio(18, 'in', 'falling');
 
 var RgbChannel = require('rpi-rgb').Channel;
 var Colour = require('rpi-rgb').Colour;
-var stripled = new RgbChannel(4,5,6);
+var stripled = new RgbChannel(2,5,4);
  
 var red = new Colour(0,100,100);
 var green = new Colour(100,0,100);
@@ -26,7 +22,7 @@ var rainbow = [violet,indigo,blue,green,yellow,orange,red];
 var rainbow_names = ["violet","indigo","blue","green","yellow","orange","red"];
 
 arm.watch(function(err,value) {
-  console.log("Arm gpio 13 pressed");
+  console.log("Arm gpio 18 pressed");
   global.mySocket.sockets.emit('messages', 'spin');
 });
 
@@ -39,21 +35,6 @@ var currentUserId = 0;
 
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
-});
-
-router.get('/on', function(req, res, next) {
-  /*
-  red.writeSync(0);
-  wait(1000);
-  red.writeSync(1);
-  green.writeSync(0);
-  wait(1000);
-  green.writeSync(1);
-  */
-  //blue.writeSync(0);
-  wait(1000);
-  //blue.writeSync(1);
-  res.json({"gpio": "4 on"})
 });
 
 router.get('/red', function(req, res, next) {
@@ -111,44 +92,39 @@ router.get('/test', function(req, res, next) {
 });
 
 router.get('/off', function(req, res, next) {
-  //red.writeSync(1);
-  //green.writeSync(1);
-  //blue.writeSync(1);
-  stripled.setRgb(black)
-  res.json({"gpio": "4 off"})
+  stripled.setRgb(black);
+  res.json({"result":"off"})
 });
 
 router.get('/user/:userId', function(req, res, next) {
-  var userId = parseInt(req.param('userId'));
+  var userId = req.param('userId');
   currentUserId = userId;
-  if(isNaN(userId)) {
-    res.json({"Error": "userId is not an integer"});
-  }
-  else {
-    getuser.get(userId, function(err, row){
-      console.log(row);
-      if (err) {
-        console.log(err);
-        res.json({"Error": err});
-      }
-      else if(row === undefined) {
-          putuser.run(userId);
-          currentUserId = userId;
-          res.json({"userId": userId, "winTotal": 0, "currentUserId": currentUserId});
-          global.mySocket.sockets.emit('messages', 'spin');
-      } else {
-        res.json({"userId": row.userId, "winTotal": row.winTotal, "currentUserId": currentUserId});
+  getuser.get(userId, function(err, row){
+    console.log(row);
+    if (err) {
+      console.log(err);
+      res.json({"Error": err});
+    }
+    else if(row === undefined) {
+        putuser.run(userId);
+        currentUserId = userId;
+        res.json({"userId": userId, "winTotal": 0, "currentUserId": currentUserId});
         global.mySocket.sockets.emit('messages', 'spin');
-      }
-    })
-  }
+    } else {
+      res.json({"userId": row.userId, "winTotal": row.winTotal, "currentUserId": currentUserId});
+      global.mySocket.sockets.emit('messages', 'spin');
+    }
+  })
 });
 
 router.put('/winnings/:userId/win/:dollars', function(req, res, next) {
-  var userId = parseInt(req.param('userId'));
+  var userId = req.param('userId');
+  if (userId == undefined) {
+    userId = currentUserId;
+  }
   var dollars = parseInt(req.param('dollars'));
-  if(isNaN(userId) || isNaN(dollars)) {
-    res.json({"Error": "userId or dollars is not an integer"});
+  if(isNaN(dollars)) {
+    res.json({"Error": "Dollars is not an integer"});
   }
   else {
     updatewin.run(dollars, userId, function(err, row){
@@ -164,23 +140,21 @@ router.put('/winnings/:userId/win/:dollars', function(req, res, next) {
 });
 
 router.get('/winnings/:userId', function(req, res, next) {
-  var userId = parseInt(req.param('userId'));
-  if(isNaN(userId)) {
-    res.json({"Error": "userId is not an integer"});
+  var userId = req.param('userId');
+  if (userId == undefined) {
+    userId = currentUserId;
   }
-  else {
-    getuser.get(userId, function(err, row){
-      if (err) {
-        console.log(err);
-        res.json({"Error": err});
-      }
-      else if(row === undefined) {
-          res.json({"userId": userId, "winTotal": 0});
-      } else {
-        res.json({"userId": row.userId, "winTotal": row.winTotal});
-      }
-    })
-  }
+  getuser.get(userId, function(err, row){
+    if (err) {
+      console.log(err);
+      res.json({"Error": err});
+    }
+    else if(row === undefined) {
+        res.json({"userId": userId, "winTotal": 0});
+    } else {
+      res.json({"userId": row.userId, "winTotal": row.winTotal});
+    }
+  })
 });
 
 process.on('SIGINT', function () {

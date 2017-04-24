@@ -13,19 +13,19 @@ $(document).ready(function() {
     * Global variables
     */
     var completed = 0,
-        imgHeight = 1000,
+        imgHeight = 5700,
         posArr = [
             0, //orange
-            250, //bell
-            500, //bar
-            750 //seven
+            1425, //bell
+            2850, //bar
+            4275 //seven
         ];
     
     var win = [];
-    win[0] = 'cherry';
-    win[250] = 'seven';
-    win[500] = 'bar';
-    win[750] = 'bell';
+    win[0] = 'logo';
+    win[1425] = 'dollar';
+    win[2850] = 'paw';
+    win[4275] = 'panther';
 
     /**
     * @class Slot
@@ -52,7 +52,9 @@ $(document).ready(function() {
     */
     Slot.prototype.start = function() {
         var _this = this;
-        $(_this.el).addClass('motion');
+        //$(_this.el).addClass('motion');
+        this.maxSpeed = Math.random() * 50 + 20;
+        this.step = Math.random() * 5 + 1;
         $(_this.el).spStart();
         clearInterval(_this.si);
         _this.si = window.setInterval(function() {
@@ -81,7 +83,7 @@ $(document).ready(function() {
                 $(_this.el).spSpeed(0);
                 $(_this.el).spStop();
                 clearInterval(_this.si);
-                $(_this.el).removeClass('motion');
+                //$(_this.el).removeClass('motion');
                 _this.speed = 0;
             }
         }, 100);
@@ -116,13 +118,15 @@ $(document).ready(function() {
                         posMin = k - pos;
                         best = k;
                         this.pos = posArr[i]; //update the final position of the slot
+                        // this updates the spritely last position value so rollers won't jump at the start
+                        $._spritely.instances[el_id]['t'] = this.pos; 
                     }
                     break;
                 }
             }
         }
 
-        best += imgHeight + 4;
+        best += imgHeight;
         bgPos = "0 " + best + "px";
         $(el).animate({
             backgroundPosition:"(" + bgPos + ")"
@@ -185,14 +189,17 @@ $(document).ready(function() {
             break;
         case 3:
             switch (type) {
-                case 'bell':
+                case 'dollar':
                     pay = 5000;
                     break;
                 default:
                     pay = 500;
             }
         } 
-        $('#result').html('$' + pay);
+        
+        $.getJSON( "/api/winnings//" + pay, function( data ) {
+            $('#result').html('$' + pay) + data;
+        });
     }
 
     //create slot objects

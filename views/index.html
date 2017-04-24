@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Slot Machine in Javascript</title>
-<meta name="description" content="Welcome to the Javascript version of Slot Machine written by Saurabh Odhyan"> 
-<meta name="keywords" content="javascript, jquery, spritely, animation, sprite, background position, slot, game, games, saurabh, odhyan">
+<meta name="description" content="Welcome to Slot Machine"> 
+<meta name="keywords" content="javascript, jquery, spritely, animation, sprite">
 <style>
 body {
 	font-family:verdana,arial;
@@ -15,21 +15,28 @@ body {
 }
 .container {
 	margin:0 auto;
-	width:758px;
+	width:1208px; 
 }
 .slot-wrapper {
-	 border: 1px solid #000000;
+	 border: 1px solid #2ea0f7;
 }
 .slot {
-	background:url("images/slots_normal.png") repeat-y; 
-	width:250px;
-	height:250px;
+	background:url("images/slot_images_tape3.jpg") repeat-y; 
+	width:400px;
+	height:450px;
+	float:left;
+	border:1px solid #2ea0f7;
+	background-position:0 0x;
+	background-size: 100%,400px;
+}
+.motion {
+	background:url("images/slot_images_tape_blur.jpg") repeat-y; 
+	width:400px;
+	height:460px;
 	float:left;
 	border:1px solid #000;
 	background-position:0 4px;
-}
-.motion {
-	background:url("images/slots_blur.png") repeat-y; 
+	background-size: 100%,400px;
 }
 button {
 	display:block;

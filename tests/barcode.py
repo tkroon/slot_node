@@ -4,12 +4,10 @@ import os
 
 url = 'http://127.0.0.1:3000/api/user/'
 cam = Camera()  #starts the camera
-display = Display() 
+#display = Display() 
 
-while(display.isNotDone()):
- 
+while(1==1):
  img = cam.getImage() #gets image from the camera
-
  barcode = img.findBarcode() #finds barcode data from image
  if(barcode is not None): #if there is some data processed
    #os.system('espeak -ven+f3 "Card Scanned"')
@@ -17,7 +15,6 @@ while(display.isNotDone()):
    result = str(barcode.data)
    r=requests.get(url+result)
    print result + ' status: ' + str(r.status_code) + ' ' + r.text #r.json().userId #prints result of barcode in python shell
-
    barcode = [] #reset barcode data to empty set
 
- img.save(display) #shows the image on the screen
+ #img.save(display) #shows the image on the screen
