@@ -53,8 +53,8 @@ $(document).ready(function() {
     Slot.prototype.start = function() {
         var _this = this;
         //$(_this.el).addClass('motion');
-        this.maxSpeed = Math.random() * 50 + 20;
-        this.step = Math.random() * 5 + 1;
+        this.maxSpeed = (Math.random() * 60) + 30;
+        this.step = (Math.random()) * 3 + 1;
         $(_this.el).spStart();
         clearInterval(_this.si);
         _this.si = window.setInterval(function() {
