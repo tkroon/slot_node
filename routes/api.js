@@ -4,6 +4,7 @@ var router = express.Router();
 
 var Gpio = require('onoff').Gpio,
 arm = new Gpio(18, 'in', 'falling');
+armstart = new Gpio(17, 'in', 'falling');
 
 var RgbChannel = require('rpi-rgb').Channel;
 var Colour = require('rpi-rgb').Colour;
@@ -22,8 +23,13 @@ var rainbow = [violet,indigo,blue,green,yellow,orange,red];
 var rainbow_names = ["violet","indigo","blue","green","yellow","orange","red"];
 
 arm.watch(function(err,value) {
-  console.log("Arm gpio 18 pressed");
+  console.log("Arm down gpio 18 pressed");
   global.mySocket.sockets.emit('messages', 'spin');
+});
+
+armstart.watch(function(err,value) {
+  console.log("Arm UPDATE gpio 17 pressed");
+  //global.mySocket.sockets.emit('messages', 'spin');
 });
 
 var dbfile = "./slot.db";
