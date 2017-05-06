@@ -13,19 +13,22 @@ $(document).ready(function() {
     * Global variables
     */
     var completed = 0,
-        imgHeight = 5700,
+        imgHeight = 1187, //5700
+        JACKPOT = 'dollar';
+        minBet = 5;
+        bet = 0;
         posArr = [
-            0, //orange
-            1425, //bell
-            2850, //bar
-            4275 //seven
+            0, //orange 0
+            298, //bell 1425
+            595, //bar 2850
+            895 //seven 4275
         ];
     
     var win = [];
     win[0] = 'logo';
-    win[1425] = 'dollar';
-    win[2850] = 'paw';
-    win[4275] = 'panther';
+    win[298] = 'panther';
+    win[595] = 'paw';
+    win[895] = 'dollar';
 
     /**
     * @class Slot
@@ -37,10 +40,11 @@ $(document).ready(function() {
         this.si = null; //holds setInterval object for the given slot
         this.el = el; //dom element of the slot
         this.maxSpeed = max; //max speed this slot can have
-        this.pos = null; //final position of the slot    
+        this.pos = null; //final position of the slot 
+        this.pic = win[0]; // the picture that is showing   
 
         $(el).pan({
-            fps:30,
+            fps:20,
             dir:'down'
         });
         $(el).spStop();
@@ -53,7 +57,7 @@ $(document).ready(function() {
     Slot.prototype.start = function() {
         var _this = this;
         //$(_this.el).addClass('motion');
-        this.maxSpeed = (Math.random() * 60) + 30;
+        this.maxSpeed = (Math.random() * 80) + 30;
         this.step = (Math.random()) * 3 + 1;
         $(_this.el).spStart();
         clearInterval(_this.si);
@@ -110,14 +114,20 @@ $(document).ready(function() {
         pos = pos.split(' ')[1];
         pos = parseInt(pos, 10);
 
+       // rootPos = pos % 4;
+        //for(i = 0; i < posArr.length; i++) {
+        //    if(rootPos)
+       // }
+
         for(i = 0; i < posArr.length; i++) {
             for(j = 0;;j++) {
                 k = posArr[i] + (imgHeight * j);
                 if(k > pos) {
                     if((k - pos) < posMin) {
                         posMin = k - pos;
-                        best = k;
+                        best = posArr[i];
                         this.pos = posArr[i]; //update the final position of the slot
+                        this.pic = win[this.pos];
                         // this updates the spritely last position value so rollers won't jump at the start
                         $._spritely.instances[el_id]['t'] = this.pos; 
                     }
@@ -161,44 +171,63 @@ $(document).ready(function() {
 
     function printResult() {
         var pay;
-/*  Any Cherry 5
-    Any two 50
-    Any three 500
-    Any three Bell 5000
-*/ 
-        if (win[a.pos] === win[b.pos] && win[a.pos] === win[c.pos]) {
+        if (bet === 0) bet = minBet;
+        /*********************
+         *   Any dollar 5 * 1
+         *   Any two 50  * 10 (dollar doubles)
+         *   Any three 500 * 100
+         *   Any three dollar 5000 * 1000 Jackpot
+         *********************/ 
+        if (a.pic === b.pic && a.pic === c.pic) {
             match = 3;
-            type = win[a.pos];
+            type = a.pic;
         } else {
             match = 2;
-            if (win[a.pos] === win[b.pos] || win[a.pos] === win[c.pos]) {
-                type = win[a.pos];
-            } else if (win[b.pos] === win[c.pos]) {
-                type = win[b.pos];
+            if (a.pic === b.pic || a.pic === c.pic) {
+                type = a.pic;
+            } else if (b.pic === c.pic) {
+                type = b.pic;
             } else {
                 match = 1;
+                type = 'none';
             }
         }
+        if((a.pic + b.pic + c.pic).includes(JACKPOT)) type = JACKPOT;
+        pay = 0;
 
         switch (match) {
         case 1:
-            pay = 5;
+            if(type ===JACKPOT)
+                pay = bet;
             break;
         case 2:
-            pay = 50;
+            pay = bet * 10;
             break;
         case 3:
             switch (type) {
-                case 'dollar':
-                    pay = 5000;
+                case JACKPOT:
+                    pay = bet * 500;
                     break;
                 default:
-                    pay = 500;
+                    pay = bet * 100;
             }
         } 
-        
-        $.getJSON( "/api/winnings//" + pay, function( data ) {
-            $('#result').html('$' + pay) + data;
+
+        if (type == JACKPOT) pay = pay * 2;
+        bet = 0; // reset to zero bet
+    
+        // 'logo';
+        // 'panther';
+        // 'paw';
+        // 'dollar';
+
+        $.ajax({
+            url: '/api/winnings/1/win/' + pay,
+            type: 'PUT',
+            data: "",
+            success: function(data) {
+                $('#result').html('$' + pay) + data;
+            }
         });
     }
 
