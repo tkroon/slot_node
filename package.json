@@ -7,12 +7,15 @@
     "stop": "pkill --signal SIGINT slotMachine"
   },
   "dependencies": {
+    "aplay": "^1.1.0",
+    "audio-loader": "^1.0.3",
     "body-parser": "~1.16.0",
     "color": "^1.0.3",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.0",
     "express": "~4.14.1",
     "morgan": "~1.7.0",
+    "object-assign": "^4.1.1",
     "onoff": "^1.1.2",
     "pug": "~2.0.0-beta10",
     "rpi-rgb": "^1.1.10",
