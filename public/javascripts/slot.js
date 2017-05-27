@@ -14,7 +14,7 @@ $(document).ready(function() {
     */
     var completed = 0,
         imgHeight = 1187, //5700
-        JACKPOT = 'dollar';
+        GREENDOLLAR = 'dollar';
         minBet = 5;
         bet = 0;
         posArr = [
@@ -173,10 +173,12 @@ $(document).ready(function() {
         var pay;
         if (bet === 0) bet = minBet;
         /*********************
-         *   Any dollar 5 * 1
-         *   Any two 50  * 10 (dollar doubles)
-         *   Any three 500 * 100
-         *   Any three dollar 5000 * 1000 Jackpot
+         *   No match     * 0
+         *   one $        * 2
+         *   two match    * 10 
+         *   three match  * 100
+         *   three $      * 1000
+         *   Dollar Doubles All payouts
          *********************/ 
         if (a.pic === b.pic && a.pic === c.pic) {
             match = 3;
@@ -192,43 +194,42 @@ $(document).ready(function() {
                 type = 'none';
             }
         }
-        if((a.pic + b.pic + c.pic).includes(JACKPOT)) type = JACKPOT;
+        if((a.pic + b.pic + c.pic).includes(GREENDOLLAR)) type = GREENDOLLAR;
         pay = 0;
 
         switch (match) {
         case 1:
-            if(type ===JACKPOT)
-                pay = bet;
+            if(type === GREENDOLLAR)
+                pay = 1;
             break;
         case 2:
-            pay = bet * 10;
+            pay = 10;
             break;
         case 3:
             switch (type) {
-                case JACKPOT:
-                    pay = bet * 500;
+                case GREENDOLLAR:
+                    pay = 500;
                     break;
                 default:
-                    pay = bet * 100;
+                    pay = 100;
             }
         } 
-
-        if (type == JACKPOT) pay = pay * 2;
-        bet = 0; // reset to zero bet
-    
+        if (type == GREENDOLLAR) pay = pay * 2;
+       
         // 'logo';
         // 'panther';
         // 'paw';
         // 'dollar';
 
         $.ajax({
-            url: '/api/winnings/1/win/' + pay,
+            url: '/api/pay/' + pay,
             type: 'PUT',
             data: "",
             success: function(data) {
-                $('#result').html('$' + pay) + data;
+                $('#result').html(data);
             }
         });
+        bet = 0; // reset to zero bet
     }
 
     //create slot objects

@@ -84,17 +84,17 @@ button {
  ioServer = location.protocol + '//' + location.hostname + ":4200";
  var socket = io.connect(ioServer);
 
-/*
- socket.on('connect', function(data) {
-    socket.emit('join', 'Hello World from client V2');
- });
-*/
-
  socket.on('messages', function(data) {
     //alert(data);
-	if(data == 'spin' && $('#control').attr("disabled", false)) 
+	var res = data.split("|");
+	if(res[0] == 'spin' && $('#control').attr("disabled", false)) 
 	{
+		bet = res[1];
+		//alert ("originalbet: " + bet);
 		$('#control').click();
+	} else if(res[0]=='show') {
+		$('#result').html(res[1]);
+		bet = res[2];
 	}
  });
  

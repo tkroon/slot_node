@@ -7,14 +7,21 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var server = require('http').createServer(app);  
 var io = require('socket.io')(server);
-
 var index = require('./routes/index');
 var api = require('./routes/api');
-
 var app = express();
+summon = require('express-summon-route');
+
+// initialize 
+betIncrement = 25;
+currentUser = null;
+bet = 0;
+state = "ready";
+armstate = "";
+winTotal = 0;
 
 // save socket variables
-global.mySocket = io;
+mySocket = io;
 app.set('socketio', io);
 app.set('server', server);
 
@@ -33,6 +40,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/api', api)
 app.use('/socket.io', express.static(path.join(__dirname, 'node_modules/socket.io-client/dist')))
+
+summon.use(app, express); // need to pass an instance of app to summon, and express library
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -55,16 +64,7 @@ app.use(function(err, req, res, next) {
 io.on('connection', function(client) {  
     console.log('Client connected...');
     global.slotUi = client; 
-/*
-    client.on('join', function(data) {
-        console.log(data);
-        
-        client.emit('messages', 'Hello from server')
-    });
-*/
-
 });
 
 server.listen(4200); 
-
 module.exports = app;
