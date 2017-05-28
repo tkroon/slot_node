@@ -35,21 +35,50 @@ exports.getWinTotal = function(callback) {
   console.log("wintotal: " + global.winTotal)
 }
 
+exports.getStatus = function(multiplier, dollars, total)  {
+  // bet|total|message
+  var message = "0|" + util.moneyFormat(total) + "|" + util.getSpinMessage(multiplier, dollars, total);
+  return message;
+}
+
 exports.getSpinMessage = function(multiplier, dollars, total)  {
-  dollarInt = parseInt(dollars);
-  totalInt = parseInt(total);
-  multiplierInt = parseInt(multiplier);
+  var dollarInt = parseInt(dollars);
+  var totalInt = parseInt(total);
+  var multiplierInt = parseInt(multiplier);
+  var message = "";
   if (multiplier == 0)
   {
-    message = "<p>You LOOSE!</p>";
+    message = "Lost $" + util.moneyFormat(bet) + " Bet Sorry";
   } 
   else 
   {
-    message = "<p>Won: $" + dollars + "</p>";
+    message = "Winner! " + multiplier + " x " + util.moneyFormat(bet) + " = <font color='green'>" + util.moneyFormat(dollars) + "</font>";
   }
-
-  message = message +  "<p>Total: $" + total + "</p>";
-  console.log(message);
+  //message = message +  "<br/>Total: $" + util.moneyFormat(total);
+  console.log("<p>" + message + "</p>");
 
   return message;
+}
+
+exports.initUser = function(userId) {
+  currentUser = userId;
+  getuser.get(userId, function(err, row){
+      console.log(row);
+      if (err) {
+        console.log(err);
+      }
+      else if(row === undefined) {
+        winTotal = initialBank;
+        putuser.run(userId,winTotal);
+        console.log("Inserted New User: " + userId)
+      } else {
+        winTotal = row.winTotal;
+      }
+    });
+}
+
+exports.moneyFormat = function numberWithCommas(x) {
+    var parts = x.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return "$" + parts.join(".");
 }

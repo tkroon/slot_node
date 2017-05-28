@@ -226,7 +226,10 @@ $(document).ready(function() {
             type: 'PUT',
             data: "",
             success: function(data) {
-                $('#result').html(data);
+                var res = data.split("|");
+                $('#bet').text(res[1]);
+                $('#total').text(res[2]);
+		        $('#result').html(res[3]); 
             }
         });
         bet = 0; // reset to zero bet
@@ -265,5 +268,5 @@ $(document).ready(function() {
                 }, 100);
             }
         }, 100);
-    });
+    }); 
 });

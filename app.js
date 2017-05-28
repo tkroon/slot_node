@@ -11,8 +11,10 @@ var index = require('./routes/index');
 var api = require('./routes/api');
 var app = express();
 summon = require('express-summon-route');
+wait=require('wait.for');
 
 // initialize 
+initialBank = 1000;
 betIncrement = 25;
 currentUser = null;
 bet = 0;

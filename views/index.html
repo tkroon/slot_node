@@ -5,58 +5,9 @@
 <title>Slot Machine in Javascript</title>
 <meta name="description" content="Welcome to Slot Machine"> 
 <meta name="keywords" content="javascript, jquery, spritely, animation, sprite">
-<style>
-body {
-	font-family:verdana,arial;
-	padding:20px;
-}
-.bd {
-	text-align:center;
-}
-.container {
-	margin:0 auto;
-	width:758px; 
-}
-.slot-wrapper {
-	 border: 1px solid #2ea0f7;
-}
-.slot {
-	background:url("images/slot_images_tape4.jpg") repeat-y; 
-	width:250px;
-	height:281px;
-	float:left;
-	border:1px solid #2ea0f7;
-	background-position:0 0x;
-	background-size: 100%,250px;
-}
-button {
-	display:block;
-	width:138px;
-	height:33px;
-	margin:20px 60px;
-	font-size:16px;
-	cursor:pointer;
-}
-#result {
-	margin:20px 0;
-	font-size:18px;
-	font-weight:bold;
-	height:22px;
-}
-.credits {
-	font-size:15px;
-	margin-top:20px;
-}
-.credits .browsers {
-	font-style:italic;
-	font-size:14px;
-	color:#777;
-	margin-top:4px;
-}
-.clear {
-	clear:both;
-}
-</style>
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Sigmar+One" />
+<link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
+
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
 <script src="javascripts/jquery.spritely.js"></script>
 <script src="javascripts/jquery.backgroundPosition.js"></script>
@@ -67,15 +18,19 @@ button {
 <body>
 <div class="bd">
 	<div class="container">
+		<div id="status"></div>
 		<div class="slot-wrapper">
 			<div id="slot1" class="slot"></div>
 			<div id="slot2" class="slot"></div>
 			<div id="slot3" class="slot"></div>
 			<div class="clear"></div>
 		</div>
+		<div class="status">Current Bet: <div id="bet"></div></div>
+		<div class="status">Your Total Cash: <div id="total"></div></div>
 		<div id="result"></div>
-		<div><button id="control">Start</button></div>
+		<div><button id="control">Spin</button></div>
 	</div>
+	<div id="payouttable"></div>
 </div>
 </body>
 </html>
@@ -93,8 +48,10 @@ button {
 		//alert ("originalbet: " + bet);
 		$('#control').click();
 	} else if(res[0]=='show') {
-		$('#result').html(res[1]);
-		bet = res[2];
+		$('#bet').text(res[1]);
+		$('#total').text(res[2]);
+		$('#result').html(res[3]);
+		bet = res[1];
 	}
  });
  

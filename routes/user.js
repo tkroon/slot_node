@@ -8,8 +8,9 @@ router.get('/user/:userId', function(req, res, next) {
       res.json({"Error": err});
     }
     else if(row === undefined) {
-        putuser.run(userId);
-        currentUserId = userId;
+        putuser.run(userId, initialBank);
+        winTotal = initialBank;
+        currentUser = userId;
         res.json({"userId": userId, "winTotal": 0, "currentUserId": currentUserId});
         global.mySocket.sockets.emit('messages', 'spin');
     } else {
