@@ -10,16 +10,18 @@ var io = require('socket.io')(server);
 var index = require('./routes/index');
 var api = require('./routes/api');
 var app = express();
-summon = require('express-summon-route');
-wait=require('wait.for');
 
-// initialize 
+// configured values 
 initialBank = 1000;
 betIncrement = 25;
-currentUser = null;
+maxSpins = 5;
+
+//initialize
+currentUser = 0;
+spins = 0;
 bet = 0;
 state = "ready";
-armstate = "";
+armstate = "up";
 winTotal = 0;
 
 // save socket variables
@@ -42,8 +44,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/api', api)
 app.use('/socket.io', express.static(path.join(__dirname, 'node_modules/socket.io-client/dist')))
-
-summon.use(app, express); // need to pass an instance of app to summon, and express library
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

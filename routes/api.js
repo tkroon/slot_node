@@ -1,10 +1,12 @@
 util = require('./util.js');
+led = require('./led.js');
 express = require('express');
 Media = require('simple-mplayer');
 var sqlite3 = require('sqlite3').verbose();
 router = express.Router();
 require('./util.js');
-//require('./light.js');
+require('./led.js');
+require('./led_test.js');
 require('./sound.js');
 require('./bet.js');
 require('./user.js');
@@ -15,37 +17,47 @@ var db = new sqlite3.Database(dbfile);
 putuser = db.prepare('INSERT into users (userId, winTotal) values (?, ?)');
 getuser = db.prepare('SELECT userId, winTotal from users where userId = ?')
 updatewin = db.prepare('UPDATE users set winTotal = winTotal + ? where userId = ?;')
-//updateloss = db.prepare('UPDATE users set winTotal = winTotal - ? where userId = ?;')
 
-/******************** Arm setup *************/
-/* pressed = 0 open = 1                     */
-/* champions, beep, inmoney, bell, arm      */
-/********************************************
+/******************** Arm setup *******************/
+/* pressed = 0 (down or up) open = 1  in between  */
+/* champions, beep, inmoney, bell, arm            */
+/**************************************************/
 var Gpio = require('onoff').Gpio,
 armdown = new Gpio(18, 'in', 'falling');
-armup = new Gpio(17, 'in', 'falling');
+armup = new Gpio(17, 'in', 'both');
 
 armdown.watch(function(err,value) {
   console.log("Arm down gpio 18 value: " + value);
-  if( state == "bet" && armstate == "moving" && value == 0 ){
-    spin.play({loop: 1}); 
-    state="spinning";
-    armstate="down";
+  if(value == 0) {
+    if( state == "bet" ){
+      pullsound.stop();
+      spinsound.stop();
+      win.stop();
+      spinsound.play({loop: 5}); 
+      state="spinning";
+      armstate="down";
+      //spins += 1;
+      mySocket.sockets.emit('messages', 'spin|'+  bet);
+    } else if( state == "gameover") {
+      util.say('Game over play again later');
+    } else {
+      win.stop();
+      util.say('No bet, Insert Pass below then pull');
+    }
   }
-  mySocket.sockets.emit('messages', 'spin|'+  bet);
 });
 
 armup.watch(function(err,value) {
   console.log("Arm up gpio 17 value: " + value);
   if (value == 0) { // up
     armstate="up"
-    pull.stop();
+    pullsound.stop();
   }
-  if( state = "bet" && armstate == "up" && value == 0 ) { // not up
+  if( state = "bet" && armstate == "up" && value == 1 ) { // not up
     armstate = "moving"
-    pull.play();
+    pullsound.stop();
+    pullsound.play();
   }
-  //global.mySocket.sockets.emit('messages', 'spin');
 });
 
 /********************* Routes ****************/
@@ -63,7 +75,8 @@ router.get('/status', function(req, res, next) {
       bet: bet, 
       state: state, 
       armstate: armstate, 
-      won: winTotal
+      won: winTotal,
+      spins: spins
     })
   });
 });

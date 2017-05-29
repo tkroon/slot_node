@@ -1,4 +1,4 @@
-cd /user/pi/slot_node
+cd /home/pi/slot_node
 sudo modprobe snd_bcm2835
 sudo aplay ./public/sounds/beep-07.wav
 sudo pkill uv4l

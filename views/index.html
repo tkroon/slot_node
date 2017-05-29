@@ -14,23 +14,39 @@
 <script src="socket.io/socket.io.js"></script>
 <script src="javascripts/slot.js"></script>
 </head>
-
 <body>
 <div class="bd">
 	<div class="container">
-		<div id="status"></div>
+		<div class="status">
+			<div id="left">Player #: <span id="user"/></div>
+			<div id="center">Current Bet: <span id="bet"/></div>
+			<div id="right">Total Cash: <span id="total"/></div>
+		</div>
 		<div class="slot-wrapper">
 			<div id="slot1" class="slot"></div>
 			<div id="slot2" class="slot"></div>
 			<div id="slot3" class="slot"></div>
 			<div class="clear"></div>
 		</div>
-		<div class="status">Current Bet: <div id="bet"></div></div>
-		<div class="status">Your Total Cash: <div id="total"></div></div>
-		<div id="result"></div>
-		<div><button id="control">Spin</button></div>
-	</div>
-	<div id="payouttable"></div>
+		<div class="status" id="result">Good Luck!</div>
+		<div class="infoarea">
+			<div class="instructions">
+				<h3>Instructions 1 - 2 - 3</h2>
+				<ol>
+					<li>Insert Boarding Pass in slot below<sup>*</sup><br/>Wait for bell sound then remove</li>
+					<li>Pull paw to spin (5 spins/game)</li>
+					<li>Scan Pass @ bank to cash-out<sup>**</sup></li>
+				</ol>
+				<br/>
+				<div class="note">
+					<span>Come back tonight to play another game</span>
+					<span><sup>*</sup>($25 bet each insert -- max bet $75)</span>
+					<span><sup>**</sup>Money stays on pass until you cash-out</span>
+				</div>
+			</div>
+		</div>
+	</div>	
+	<div><button id="control">Spin</button></div>
 </div>
 </body>
 </html>
@@ -40,19 +56,19 @@
  var socket = io.connect(ioServer);
 
  socket.on('messages', function(data) {
-    //alert(data);
 	var res = data.split("|");
+	//alert(data);
 	if(res[0] == 'spin' && $('#control').attr("disabled", false)) 
 	{
 		bet = res[1];
-		//alert ("originalbet: " + bet);
+		//alert ("bet: " + bet);
 		$('#control').click();
 	} else if(res[0]=='show') {
 		$('#bet').text(res[1]);
 		$('#total').text(res[2]);
-		$('#result').html(res[3]);
+		$('#user').text(res[3]);
+		$('#result').html(res[4]);
 		bet = res[1];
 	}
  });
- 
 </script> 

@@ -8,12 +8,17 @@ exports.wait = function(ms){
 
 exports.say = function(words){
   var cp = require("child_process");
-  var process = cp.spawn('/usr/bin/python',['util/talk.py','-s '+ words]);
+  var process = cp.spawn('/usr/bin/python',['util/talk.py','-t "' + words + '"']);
 }
 
 exports.selftest = function(){
+  console.log("**** Self Test START ****");
   //bugsgold.play();
-  console.log("**** Self Test complete ****");
+  led.fadeTo("red",100,5000);
+  led.fadeTo("green",50,2000);
+  led.setTo("blue",50,2000);
+  led.fadeTo("off",100,2000);
+  console.log("**** Self Test COMPLETE ****");
 }
 
 exports.getWinTotal = function(callback) {
@@ -37,7 +42,7 @@ exports.getWinTotal = function(callback) {
 
 exports.getStatus = function(multiplier, dollars, total)  {
   // bet|total|message
-  var message = "0|" + util.moneyFormat(total) + "|" + util.getSpinMessage(multiplier, dollars, total);
+  var message = "0|" + util.moneyFormat(total) + "|" + currentUser + "|" + util.getSpinMessage(multiplier, dollars, total);
   return message;
 }
 
@@ -48,33 +53,35 @@ exports.getSpinMessage = function(multiplier, dollars, total)  {
   var message = "";
   if (multiplier == 0)
   {
-    message = "Lost $" + util.moneyFormat(bet) + " Bet Sorry";
+    message = "Lost " + util.moneyFormat(bet) + " bet SORRY";
   } 
   else 
   {
     message = "Winner! " + multiplier + " x " + util.moneyFormat(bet) + " = <font color='green'>" + util.moneyFormat(dollars) + "</font>";
   }
-  //message = message +  "<br/>Total: $" + util.moneyFormat(total);
+  message = message + " (spins: " + (maxSpins - spins) + ")";
   console.log("<p>" + message + "</p>");
 
   return message;
 }
 
-exports.initUser = function(userId) {
+exports.initUser = function(userId, callback) {
   currentUser = userId;
   getuser.get(userId, function(err, row){
-      console.log(row);
-      if (err) {
-        console.log(err);
-      }
-      else if(row === undefined) {
-        winTotal = initialBank;
-        putuser.run(userId,winTotal);
-        console.log("Inserted New User: " + userId)
-      } else {
-        winTotal = row.winTotal;
-      }
-    });
+    console.log(row);
+    if (err) {
+      console.log(err);
+    }
+    else if(row === undefined) {
+      winTotal = initialBank;
+      putuser.run(userId,winTotal);
+      console.log("Inserted New User: " + userId)
+    } else {
+      winTotal = row.winTotal;
+    }
+    //console.log("inside initUser winTotal: " + winTotal);
+    callback(winTotal);
+  });
 }
 
 exports.moneyFormat = function numberWithCommas(x) {

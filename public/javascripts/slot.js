@@ -198,12 +198,11 @@ $(document).ready(function() {
         pay = 0;
 
         switch (match) {
-        case 1:
-            if(type === GREENDOLLAR)
-                pay = 1;
-            break;
         case 2:
-            pay = 10;
+            if(type === GREENDOLLAR)
+                pay = 25;
+            else
+                pay = 10;
             break;
         case 3:
             switch (type) {
@@ -229,7 +228,8 @@ $(document).ready(function() {
                 var res = data.split("|");
                 $('#bet').text(res[1]);
                 $('#total').text(res[2]);
-		        $('#result').html(res[3]); 
+		        $('#user').text(res[3]);
+		        $('#result').html(res[4]);
             }
         });
         bet = 0; // reset to zero bet
