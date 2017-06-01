@@ -5,8 +5,7 @@ Media = require('simple-mplayer');
 var sqlite3 = require('sqlite3').verbose();
 router = express.Router();
 require('./util.js');
-require('./led.js');
-require('./led_test.js');
+//require('./led_test.js');
 require('./sound.js');
 require('./bet.js');
 require('./user.js');
@@ -14,14 +13,15 @@ require('./winloose.js');
 
 var dbfile = "./slot.db";
 var db = new sqlite3.Database(dbfile);
-putuser = db.prepare('INSERT into users (userId, winTotal) values (?, ?)');
+putuser = db.prepare('INSERT into users (userId, winTotal, payout) values (?, ?, 0)');
 getuser = db.prepare('SELECT userId, winTotal from users where userId = ?')
 updatewin = db.prepare('UPDATE users set winTotal = winTotal + ? where userId = ?;')
+payout = db.prepare('UPDATE users set winTotal = 500, payout = payout + winTotal where userId = ?;')
 
 /******************** Arm setup *******************/
 /* pressed = 0 (down or up) open = 1  in between  */
 /* champions, beep, inmoney, bell, arm            */
-/**************************************************/
+/**************************************************
 var Gpio = require('onoff').Gpio,
 armdown = new Gpio(18, 'in', 'falling');
 armup = new Gpio(17, 'in', 'both');

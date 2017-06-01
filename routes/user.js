@@ -20,4 +20,25 @@ router.get('/user/:userId', function(req, res, next) {
   })
 });
 
+router.put('/user/markpaid/:userId', function(req, res, next) {
+  var userId = req.param('userId');
+  payout.run(userId);
+  res.send("Payment Complete");
+});
+
+router.get('/user/payout/:userId', function(req, res, next) {
+  var userId = req.param('userId');
+    getuser.get(userId, function(err, row){
+      console.log(row);
+      if (err || row == undefined) {
+        console.log("can't find gambler");
+        mySocket.sockets.emit("messages", "message|Can't find student ID -- scan another pass");
+        res.json({'message': 'failed to find student id'});
+      } else {
+        mySocket.sockets.emit('messages', 'payout|' + userId + "|" + util.moneyFormat(row.winTotal));
+        res.json({'message': 'gambler payout returned'});
+      }
+    })
+});
+
 module.exports = router;

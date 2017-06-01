@@ -47,12 +47,37 @@ body {
 }
 
 button {
-	display: none;
+	display: block;
 	width: 100px;
 	height: 20px;
 	margin: 0px 0px;
 	font-size: 12px;
 	cursor: pointer;
+}
+
+.paidbutton {
+	box-shadow: 0px 10px 14px -7px #276873;
+	background:linear-gradient(to bottom, #FFFFFF 5%, #7d9940 100%);
+	background-color:#b3ac59;
+	border-radius:8px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:20px;
+	font-weight:bold;
+	height:160px;
+	width:750px;
+}
+
+.buttongrey {
+	background:linear-gradient(to bottom, grey 5%, grey 100%);
+	background-color:grey;
+	color: lightgray;
+}
+
+#control {
+	display: none;
 }
 
 .status {
@@ -84,4 +109,41 @@ button {
 
 .note {
 	float:right;
+}
+
+.bankheader {
+	float: left;
+}
+
+.icon {
+	height: 125px;
+	float: left;
+	padding-bottom: 10px;
+}
+
+#message {
+    display:block;
+    width: 750px;
+    height:70px;
+	text-align: middle;
+}
+
+.paycontrol {
+	border-width: 1px;
+	border-color: blue;
+	border-style: inset;
+	width: 750px;
+	padding:10px;
+	font-family: "Sigmar One";
+	font-size: 30px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 400;
+	line-height: 30px;
+	text-align: left;
+}
+
+.center1 {
+    margin: auto;
+    width: 50%;
 }
