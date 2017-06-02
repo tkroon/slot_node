@@ -24,13 +24,15 @@
                 $('#payout').addClass("buttongrey");
                 $('#payout').attr("disabled", true);
                 $('#payout').text("Scan Boarding Pass");
+                $('#user').text(" ");
+                $('#total').text(" ");
             }
         });
     </script>
   </head>
   <body>
     <div class="center">
-        <div class="bankheader"><img class="icon" src="../../images/f.png"/></div>
+        <div class="bankheader"><img class="icon" src="../../images/F.png"/></div>
         <div class="bankheader"><img class="icon" src="../../images/p.png"/></div>
         <div class="bankheader"><img class="icon" src="../../images/paw.png"/></div>
         <div class="bankheader"><img class="icon" src="../../images/$.png"/></div>
@@ -62,7 +64,11 @@
             $('#message').text(" ");
         } else if (res[0] == 'message') {
             disableScan();
-            $('#message').text(res[1]);
+            userId = res[1];
+            $('#user').text(res[1]);
+            total = res[2];
+            $('#total').text(res[2]);
+            $('#message').text(res[3]);
         }
 
     });

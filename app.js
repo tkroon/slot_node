@@ -11,6 +11,10 @@ var index = require('./routes/index');
 var api = require('./routes/api');
 var app = express();
 
+// slot machines
+slotHosts = ['192.168.1.200', '192.168.1.201'];
+port = 3000;
+
 // configured values 
 initialBank = 1000;
 betIncrement = 25;

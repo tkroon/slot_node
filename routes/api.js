@@ -5,7 +5,7 @@ Media = require('simple-mplayer');
 var sqlite3 = require('sqlite3').verbose();
 router = express.Router();
 require('./util.js');
-//require('./led_test.js');
+require('./led_test.js');
 require('./sound.js');
 require('./bet.js');
 require('./user.js');
@@ -21,7 +21,7 @@ payout = db.prepare('UPDATE users set winTotal = 500, payout = payout + winTotal
 /******************** Arm setup *******************/
 /* pressed = 0 (down or up) open = 1  in between  */
 /* champions, beep, inmoney, bell, arm            */
-/**************************************************
+/**************************************************/
 var Gpio = require('onoff').Gpio,
 armdown = new Gpio(18, 'in', 'falling');
 armup = new Gpio(17, 'in', 'both');
