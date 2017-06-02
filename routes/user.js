@@ -69,7 +69,7 @@ router.get('/user/getTotal/:userId', function(req, res, next) {
   });
 });
 
-router.put('/user/markpaid/:userId', function(req, res, next) {
+router.get('/user/markPaid/:userId', function(req, res, next) {
   var userId = req.param('userId');
   payout.run(userId);
   res.send("Payment Complete");

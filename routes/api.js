@@ -16,7 +16,7 @@ var db = new sqlite3.Database(dbfile);
 putuser = db.prepare('INSERT into users (userId, winTotal, payout) values (?, ?, 0)');
 getuser = db.prepare('SELECT userId, winTotal from users where userId = ?')
 updatewin = db.prepare('UPDATE users set winTotal = winTotal + ? where userId = ?;')
-payout = db.prepare('UPDATE users set winTotal = 500, payout = payout + winTotal where userId = ?;')
+payout = db.prepare('UPDATE users set winTotal = 1000, payout = payout + winTotal where userId = ?;')
 
 /******************** Arm setup *******************/
 /* pressed = 0 (down or up) open = 1  in between  */
