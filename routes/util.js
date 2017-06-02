@@ -15,7 +15,7 @@ exports.selftest = function(){
   console.log("**** Self Test START ****");
   //bugsgold.play();
   led.fadeTo("red",100,5000);
-  led.fadeTo("blak",100,1000);
+  led.fadeTo("black",100,1000);
   led.fadeTo("green",50,2000);
   led.fadeTo("blue",50,2000);
   led.fadeTo("off",100,2000);
