@@ -1,6 +1,7 @@
 var util = require('./util.js');
 var Media = require('simple-mplayer');
 
+global.champions = new Media('public/sounds/champions_short.mp3');
 global.win = new Media('public/sounds/champions_short.mp3');
 global.beep = new Media('public/sounds/beep-07.mp3');
 global.inmoney = new Media('public/sounds/wereinthemoney.mp3');

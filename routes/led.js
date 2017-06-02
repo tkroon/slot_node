@@ -78,6 +78,8 @@ exports.rainbow = function() {
 }
 
 exports.startRandomFade = function() {
+  clearTimeout(timer);
+  led.fadeTo("black", 100, 1000);
   var i = Math.round(Math.random() * 9);
   var time = Math.round(Math.random() * 1000) + 500;
   var bright = Math.round(Math.round(Math.random() * 100));  
