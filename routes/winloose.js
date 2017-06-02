@@ -1,14 +1,15 @@
 setStatus = function(multiplier, dollars, total) {
-  bet=0;
   spins +=1;
   state="ready";
   status = util.getStatus(multiplier, dollars, total);
+  bet=0;
   console.log("in setStatus");
   return status;
 }
 
 router.put('/pay/:multiplier', function(req, res, next) {
-  console.log("inside PAY");
+  //console.log("inside PAY");
+  led.stopRandomFade(timer);
   spinsound.stop();
   win.stop();
   var dollars = 0;
@@ -17,17 +18,32 @@ router.put('/pay/:multiplier', function(req, res, next) {
     multiplier = 0;
   }
 
+  // LOOSER
   if(multiplier == 0) {
     dollars = -bet;
+        // price is right horn
+    loose.stop();
+    loose.play();
+    led.setTo("blue", 100);
+    util.wait(1500);
+    led.fadeTo("black", 100, 4500);
   } else {
     dollars = bet * multiplier;
+        // JACKPOT
+    if( multiplier > 99) {
+      champions.stop();
+      champions.play();
+      led.fadeTo("red", 100, 1000);
+      led.fadeTo("blue", 100, 1000);
+      led.fadeTo("green", 100, 1000);
+      led.fadeTo("black", 100, 2000);
+    } else { // REGULAR WIN
+      bugsgold.stop();
+      bugsgold.play();
+      led.fadeTo("orange", 100, 1000);
+      //led.fadeTo("black", 100, 2000);
+    }
   }
-
-  // add switch or function here to analyze multiplier and play more 
-  // amped up music the higher the multiplier is.
-  // Play looser music when multiplier = 0
-  win.play();
-  led.setTo("green",50);
   setTimeout(function(){ led.fadeTo("black",100,2000); }, 5000);
 
   updatewin.run(dollars, currentUser, function(err, row){

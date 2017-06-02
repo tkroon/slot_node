@@ -37,12 +37,13 @@ armdown.watch(function(err,value) {
       state="spinning";
       armstate="down";
       //spins += 1;
+      led.startRandomFade();
       mySocket.sockets.emit('messages', 'spin|'+  bet);
     } else if( state == "gameover") {
-      util.say('Game over play again later');
-    } else {
+      util.say('Game over');
+    } else if( state != "spinning" && bet ==0) {
       win.stop();
-      util.say('No bet, Insert Pass below then pull');
+      util.say('Insert Pass');
     }
   }
 });
@@ -56,7 +57,7 @@ armup.watch(function(err,value) {
   if( state = "bet" && armstate == "up" && value == 1 ) { // not up
     armstate = "moving"
     pullsound.stop();
-    pullsound.play();
+    //pullsound.play();
   }
 });
 

@@ -35,8 +35,8 @@ var black = color(0,0,0);
 var violet = color(58,0,83);
 var indigo = color(29,0,51);
 var orange = color(100,50,0);
-var rainbow = [violet,indigo,blue,green,yellow,orange,red,black];
-var rainbow_names = ["violet","indigo","blue","green","yellow","orange","red","black"];
+var rainbow = [white,violet,indigo,blue,green,yellow,orange,red,black];
+var rainbow_names = ["white","violet","indigo","blue","green","yellow","orange","red","black"];
 var allcolors = {
   "violet": violet,"indigo":indigo,"blue":blue,
   "green":green,"yellow":yellow,"orange":orange,
@@ -75,4 +75,17 @@ exports.rainbow = function() {
     console.log(rainbow_names[i]);
     util.wait(3000);
   }
+}
+
+exports.startRandomFade = function() {
+  var i = Math.round(Math.random() * 9);
+  var time = Math.round(Math.random() * 1000) + 500;
+  var bright = Math.round(Math.round(Math.random() * 100));  
+  //console.log("color: " + rainbow_names[i] + "vxi: " + i + " time: " + time + " bright: " + bright);
+  led.fadeTo(rainbow_names[i],bright,time);
+  timer = setTimeout(function(){ led.startRandomFade(); }, time);
+}
+
+exports.stopRandomFade = function(timer) {
+  clearTimeout(timer);
 }

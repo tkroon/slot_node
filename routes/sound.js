@@ -1,7 +1,7 @@
 var util = require('./util.js');
 var Media = require('simple-mplayer');
 
-global.win = new Media('public/sounds/We are the champions.mp3');
+global.win = new Media('public/sounds/champions_short.mp3');
 global.beep = new Media('public/sounds/beep-07.mp3');
 global.inmoney = new Media('public/sounds/wereinthemoney.mp3');
 global.bell = new Media('public/sounds/1bell.mp3');
@@ -11,6 +11,7 @@ global.winwoop = new Media('public/sounds/Woop Woop-SoundBible.com-198943467.mp3
 global.loose = new Media('public/sounds/the-price-is-right-losing-horn.mp3');
 global.loose2 = new Media('public/sounds/gsmart01.mp3');
 global.bugsgold = new Media('public/sounds/bugs30.mp3');
+global.byebye = new Media('public/sounds/byebye.mp3');
 
 // Routes for playing audio
 router.get('/play/stop', function(req, res, next) {

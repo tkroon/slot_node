@@ -17,7 +17,7 @@ port = 3000;
 
 // configured values 
 initialBank = 1000;
-betIncrement = 25;
+betIncrement = 100;
 maxSpins = 5;
 
 //initialize
@@ -27,6 +27,7 @@ bet = 0;
 state = "ready";
 armstate = "up";
 winTotal = 0;
+timer = null;
 
 // save socket variables
 mySocket = io;

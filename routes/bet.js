@@ -8,10 +8,10 @@ betNow = function(userId) {
     state = "bet";
   }
   if (bet >= (3 * betIncrement) || winTotal <= 0) {
-    message += '<font color="red">Maximum Bet  --  PULL PAW NOW!</font>';
+    message += '<font color="red">Maximum Bet  --  PULL PAW NOW!</font> (bet: ' + util.moneyFormat(bet) + ')';
     util.say('PULL PAW NOW')
   } else {
-    message += 'Insert again pass -or- Pull paw'
+    message += 'Insert again pass -or- Pull paw  (bet: ' + util.moneyFormat(bet) + ")";
   }
   mySocket.sockets.emit('messages', 'show|' + util.moneyFormat(bet) + "|" + util.moneyFormat(winTotal) + "|" + currentUser + "|" + message);
 }
@@ -31,7 +31,9 @@ router.get('/bet/:userId', function(req, res, next) {
       });
     } else if(spins >= maxSpins) {
       state = "gameover";
-      message += '<font color="blue">Game Over, Cash-out -or- Play later</font>';
+      message += '<font color="blue">Game Over</font>';
+      byebye.stop();
+      byebye.play();
       mySocket.sockets.emit('messages', 'show|' + util.moneyFormat(bet) + "|" + util.moneyFormat(winTotal) + "|" + currentUser + "|" + message);
     } else {
       message += betNow(userId);

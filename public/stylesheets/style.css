@@ -46,6 +46,10 @@ body {
 	display: block;
 }
 
+.infoarea .instructions h3 {
+	float: center;
+}
+
 button {
 	display: block;
 	width: 100px;
@@ -109,6 +113,10 @@ button {
 
 .note {
 	float:right;
+}
+
+li {
+	margin-bottom: 20px;
 }
 
 .bankheader {
