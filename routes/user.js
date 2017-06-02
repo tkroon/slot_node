@@ -84,7 +84,7 @@ router.get('/user/payout/:userId', function(req, res, next) {
     promises.push(getRemoteTotal(userId,host,port));
   });
   Promise.all(promises)
-    .then((results) => {
+    .then(function(results) {
       console.log("All done", results);
       var total = 0;
       results.forEach(function(result){
@@ -103,7 +103,7 @@ router.get('/user/payout/:userId', function(req, res, next) {
         res.json({'message': 'No winnings found -- Scan another pass'});
       }
     })
-  . catch((e) => {
+  . catch(function(e) {
       console.log("An Error");
       res.json({'message': 'No Slot winnings found'});
   });
