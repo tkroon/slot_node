@@ -155,3 +155,8 @@ li {
     margin: auto;
     width: 50%;
 }
+
+@font-face {
+	font-family: 'Sigmar One';
+	src: url('SigmarOne-Regular.ttf'); 
+}
