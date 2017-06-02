@@ -17,7 +17,7 @@ exports.selftest = function(){
   led.fadeTo("red",100,5000);
   led.fadeTo("black",100,1000);
   led.fadeTo("green",50,2000);
-  led.fadeTo("blue",50,2000);
+  led.setTo("blue",50,2000);
   led.fadeTo("off",100,2000);
   console.log("**** Self Test COMPLETE ****");
 }
