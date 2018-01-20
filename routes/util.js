@@ -86,7 +86,27 @@ exports.initUser = function(userId, callback) {
 }
 
 exports.moneyFormat = function numberWithCommas(x) {
-    var parts = x.toString().split(".");
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    return "$" + parts.join(".");
+  var parts = x.toString().split(".");
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return "$" + parts.join(".");
+}
+
+exports.armspin = function() {
+  console.log("bet: " + bet + " State: " + state);
+  if( state == "bet" ){
+    pullsound.stop();
+    spinsound.stop();
+    win.stop();
+    spinsound.play({loop: 5}); 
+    state="spinning";
+    armstate="down";
+    //spins += 1;
+    led.startRandomFade();
+    mySocket.sockets.emit('messages', 'spin|'+  bet);
+  } else if( state == "gameover") {
+    util.say('Game over');
+  } else if( state != "spinning" && bet ==0) {
+    win.stop();
+    util.say('Insert Pass');
+  }
 }

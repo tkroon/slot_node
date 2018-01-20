@@ -29,22 +29,7 @@ armup = new Gpio(17, 'in', 'both');
 armdown.watch(function(err,value) {
   console.log("Arm down gpio 18 value: " + value);
   if(value == 0) {
-    if( state == "bet" ){
-      pullsound.stop();
-      spinsound.stop();
-      win.stop();
-      spinsound.play({loop: 5}); 
-      state="spinning";
-      armstate="down";
-      //spins += 1;
-      led.startRandomFade();
-      mySocket.sockets.emit('messages', 'spin|'+  bet);
-    } else if( state == "gameover") {
-      util.say('Game over');
-    } else if( state != "spinning" && bet ==0) {
-      win.stop();
-      util.say('Insert Pass');
-    }
+    util.armspin();
   }
 });
 
@@ -85,6 +70,11 @@ router.get('/status', function(req, res, next) {
 router.get('/selftest', function(req, res, next) {
   selftest();
   res.send('testing');
+});
+
+router.get('/spin', function(req, res, next) {
+  util.armspin();
+  res.send('testing spin');
 });
 
 util.selftest();

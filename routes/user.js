@@ -65,7 +65,7 @@ router.get('/user/getTotal/:userId', function(req, res, next) {
     }
     else if(row != undefined) {
       res.json({"total": row.winTotal});
-    }
+    } else {res.json({"total": 0});}
   });
 });
 
