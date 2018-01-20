@@ -92,7 +92,7 @@ exports.moneyFormat = function numberWithCommas(x) {
 }
 
 exports.armspin = function() {
-  console.log("bet: " + bet + " State: " + state);
+  console.log("bet: " + bet + " state: " + state);
   if( state == "bet" ){
     pullsound.stop();
     spinsound.stop();
