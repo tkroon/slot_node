@@ -4,14 +4,16 @@ betNow = function(userId) {
   if(bet < (3 * betIncrement) && winTotal >= betIncrement) {
     bet += betIncrement;
     winTotal -= betIncrement;
-    bell.play();
+    //bell.play();
+    
     state = "bet";
   }
   if (bet >= (3 * betIncrement) || winTotal <= 0) {
-    message += '<font color="red">Maximum Bet  --  PULL PAW NOW!</font> (bet: ' + util.moneyFormat(bet) + ')';
-    util.say('PULL PAW NOW')
+    message += '<font color="red">Maximum Bet  --  PULL PAW!</font>'; // (bet: ' + util.moneyFormat(bet) + ')';
+    util.say('MAX BET ' + bet + ' PULL PAW')
   } else {
-    message += 'Insert again pass -or- Pull paw  (bet: ' + util.moneyFormat(bet) + ")";
+    util.say('BET ' + bet)
+    message += 'Insert again pass -or- PULL PAW'; //  (bet: ' + util.moneyFormat(bet) + ")";
   }
   mySocket.sockets.emit('messages', 'show|' + util.moneyFormat(bet) + "|" + util.moneyFormat(winTotal) + "|" + currentUser + "|" + message);
 }
