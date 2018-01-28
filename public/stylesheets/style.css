@@ -1,4 +1,5 @@
 body {
+	background:url("../images/money_trimed.png") repeat-y; 
 	font-family:verdana;
 	padding:0px;
 }
@@ -9,8 +10,16 @@ body {
 	margin:0 auto;
 	width:758px; 
 }
+
+.demo {
+	margin:0 auto;
+	display:none;
+	width:758px; 	
+}
+
 .slot-wrapper {
-	 border: 1px solid #2ea0f7;
+	border: 1px solid #2ea0f7;
+	background-color: white;
 }
 .slot {
 	background:url("../images/slot_images_tape4.jpg") repeat-y; 
@@ -25,8 +34,9 @@ body {
 .infoarea{
 	background:url("../images/payouttable2.png"); 
 	background-repeat:no-repeat;
-    background-size:contain;
-    height:200px;
+	background-size:contain;
+	background-color: white;
+    height:210px;
 	width: 100%px;
 }
 
@@ -86,12 +96,13 @@ button {
 
 .status {
 	font-family: "Sigmar One";
-	font-size: 16px;
+	font-size: 20px;
 	font-style: normal;
 	font-variant: normal;
 	font-weight: 400;
-	line-height: 20px;
+	line-height: 25px;
 	text-align: left;
+	background-color: white;
 	width: 100%;
 }
 

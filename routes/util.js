@@ -60,7 +60,7 @@ exports.getSpinMessage = function(multiplier, dollars, total)  {
   {
     message = "Winner! " + multiplier + " x " + util.moneyFormat(bet) + " = <font color='green'>" + util.moneyFormat(dollars) + "</font>";
   }
-  message = message + " (spins: " + (maxSpins - spins) + ")";
+  message = message + " (" + (maxSpins - spins) + " spins remaining)";
   console.log("<p>" + message + "</p>");
 
   return message;
