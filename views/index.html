@@ -32,9 +32,7 @@
 			<div class="leftinstructions" id="leftinfo">
 				<div class="sidebar">Cash</div> 
 				<div class="content" id="lastCash">&nbsp;</div>
-				<div class="sidebar">Bet</div> 
-				<div class="content" id="thisbet">&nbsp;</div>
-				<div class="sidebar">Net</div> 
+				<div class="sidebar">&nbsp;</div> 
 				<div class="content" id="winloose">&nbsp;</div>
 				<div class="sidebar">&nbsp;</div><div class="content"><hr/></div>
 				<div class="sidebar">Your Total</div> 
@@ -44,10 +42,15 @@
 				<div class="note">Cash-out at bank when done</div>
 			</div>
 			<div class="instructions">
-				<h2>Odds</h2>
-				<p>Two of a Kind 10 X bet</p>
-				<p>Three of a Kind 100 X bet</p>
-				<p><span class="money">$ = BONUS</span></p>
+				<p><img src="images/$.png"/> 2 x bet</p>
+				<p>Two of a Kind 10 x | <img src="images/$.png" /> 20 x bet</p>
+				<p>Three of a Kind 100 x bet</p>
+				<p><span class="money">
+						<img src="images/$.png" /> 
+						<img src="images/$.png" /> 
+						<img src="images/$.png" /> 
+					</span> 1000 x bet</span>
+				</p>
 			</div>
 		</div>
 	</div>
@@ -62,24 +65,27 @@
 
  socket.on('messages', function(data) {
 	var res = data.split("|");
-	//alert(data);
+	adjustment=0;
+	bet = res[1];
 	if(res[0] == 'spin' && $('#control').attr("disabled", false)) 
 	{
-		bet = res[1];
-		$('#result').html('&nbsp;');
+		$('#result').html('<div class="alert">Cash-out at bank when done</div>');
 		$('#control').click();
 		showCalc();
 	} else if(res[0]=='show') {
+		showCalc();
+		if(bet == '') {
+			adjustment = res[6];
+		} else {
+			adjustment = "-" + res[1]; //bet
+		}
 		$('#bet').text(res[1]);
-		$('#thisbet').text(res[1]);
 		$('#total').text(res[2]);
 		$('#grandtotal').text(res[2]);
 		$('#user').text(res[3]);
 		$('#result').html(res[4]);
 		$('#lastCash').text(res[5]);
-		$('#winloose').text(res[6]);
-		bet = res[1];
-		showCalc();
+		$('#winloose').text(adjustment);
 	} else if(res[0]=='over') {
 		hideCalc(res[4]);
 	}

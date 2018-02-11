@@ -36,8 +36,9 @@ router.get('/bet/:userId', function(req, res, next) {
         //console.log("inside init callback");
       });
     } else if(spins >= maxSpins) {
+      lastCash = winTotal;
       state = "gameover";
-      message += '<font color="blue">Game Over - cashout ' + util.moneyFormat(winTotal) + ' at bank</font>';
+      message += '<font color="blue">Game Over - Cashout ' + util.moneyFormat(winTotal) + ' at bank</font>';
       byebye.stop();
       byebye.play();
       mySocket.sockets.emit('messages', 'over|' + util.moneyFormat(bet) + "|" + util.moneyFormat(winTotal) + "|" + currentUser + "|" + message + "|" + util.moneyFormat(lastCash) + "|0");

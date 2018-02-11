@@ -44,7 +44,7 @@ exports.getWinTotal = function(callback) {
 exports.getStatus = function(multiplier, dollars, total)  {
   // bet|total|message
   var message = "0|" + util.moneyFormat(total) + "|" + currentUser + "|" + util.getSpinMessage(multiplier, dollars, total) + "|" + util.moneyFormat(lastCash) + "|" + util.moneyFormat(dollars);
-  console.log("debug: " + message);
+  //console.log("debug: " + message);
   return message;
 }
 

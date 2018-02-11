@@ -32,35 +32,9 @@ router.get('/play', function(req, res, next) {
 });
 
 // Routes for playing audio
-router.get('/play/money', function(req, res, next) {
-  inmoney.stop();
-  inmoney.play();
-});
-
-router.get('/bet/:userId', function(req, res, next) {
-  var userId = req.params.userId;
-  var message = "";
-  win.stop();
-  if(userId != 'none') {
-    if(userId != currentUser) {
-      util.initUser(userId, function(total) {
-        winTotal = total;
-        bet = 0;
-        spins = 0;
-        message += betNow(userId);
-        //console.log("inside init callback");
-      });
-    } else if(spins >= maxSpins) {
-      state = "gameover";
-      message += '<font color="blue">Game Over</font>';
-      byebye.stop();
-      byebye.play();
-      mySocket.sockets.emit('messages', 'show|' + util.moneyFormat(bet) + "|" + util.moneyFormat(winTotal) + "|" + currentUser + "|" + message);
-    } else {
-      message += betNow(userId);
-    }
-  }
-  res.json({"userId": userId, "bet": bet});
+router.get('/play/woop', function(req, res, next) {
+  winwoop.stop();
+  winwoop.play();
 });
 
 // Routes for playing audio

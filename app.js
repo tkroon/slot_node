@@ -18,7 +18,7 @@ port = 3000;
 // configured values 
 initialBank = 1000;
 betIncrement = 100;
-maxSpins = 5;
+maxSpins = 1;
 lanyardName = "Ticket";
 
 //initialize

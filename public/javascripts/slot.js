@@ -11,11 +11,12 @@
 */
 
 function hideCalc(message) {
-    window.clearInterval(calcTimer);
+    //alert("blah: " + message);
     $('.infoarea').css({'background-image':'url("../images/slotplay.gif")'});
     $('#leftinfo').hide();
-    if (message == '') message = '&nbsp;';
+    if (message == undefined) message = '&nbsp;';
     $('#result').html(message);
+    window.clearInterval(calcTimer);
     //promoTimer = window.setInterval(function(){ promo('background','loop'); }, promoInterval);
 };
     
@@ -212,10 +213,9 @@ $(document).ready(function() {
         /*********************
          *   No match     * 0
          *   one $        * 2
-         *   two match    * 10 
+         *   two match    * 10 $ pays double
          *   three match  * 100
          *   three $      * 1000
-         *   Dollar Doubles All payouts
          *********************/ 
         if (a.pic === b.pic && a.pic === c.pic) {
             match = 3;
@@ -235,22 +235,18 @@ $(document).ready(function() {
         pay = 0;
 
         switch (match) {
+        case 1:
+            if(type === GREENDOLLAR) pay = 1;
+            break
         case 2:
-            if(type === GREENDOLLAR)
-                pay = 25;
-            else
-                pay = 10;
+            pay = 10;
             break;
         case 3:
-            switch (type) {
-                case GREENDOLLAR:
-                    pay = 500;
-                    break;
-                default:
-                    pay = 100;
-            }
+            pay = 100;
+            if(type === GREENDOLLAR) pay = 500;
+            break;
         } 
-        if (type == GREENDOLLAR) pay = pay * 2;
+        if (type === GREENDOLLAR) pay = pay * 2;
        
         // 'logo';
         // 'panther';

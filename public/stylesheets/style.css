@@ -47,7 +47,7 @@ body {
 	float:right;
 	text-align: center;
 	display: block;
-	width: 370px;
+	width: 430px;
 	font-family: "verdana";
 	font-size: 20px;
 	font-style: bold;
@@ -58,11 +58,17 @@ body {
 	margin-right: 60px;
 }
 
+.infoarea .instructions img {
+	vertical-align: middle;
+	height: 25px;
+	width: 25px;
+}
+
 .infoarea .leftinstructions {
 	float:left;
 	text-align: center;
 	display: none;
-	width: 370px;
+	width: 300px;
 	font-family: "verdana";
 	font-size: 20px;
 	font-style: bold;
@@ -178,6 +184,11 @@ button {
 	float: right;
 	font-size: 15px;
 	margin-right: 10px;
+	color: red;
+}
+
+.alert {
+	color: red;
 }
 
 li {
@@ -228,5 +239,4 @@ li {
 
 .money {
 	color: green;
-	font-size: 30px;
 }

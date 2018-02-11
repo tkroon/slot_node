@@ -37,7 +37,7 @@ router.put('/pay/:multiplier', function(req, res, next) {
       champions.stop();
       champions.play();
       led.playLedSequence(0,celebrateseq.sequence);
-    } else { // REGULAR WIN
+    } else if (multiplier > 5) { // REGULAR WIN
       if (Math.round(Math.random())==1) {
         celebrate.stop();
         celebrate.play();
@@ -46,8 +46,13 @@ router.put('/pay/:multiplier', function(req, res, next) {
         happy.stop();
         happy.play();
         led.playLedSequence(0,happyseq.sequence);
+      } 
+    } else { // BREAK EVEN
+        winwoop.stop();
+        winwoop.play();
+        led.fadeTo("indigo",100,3000);
+        led.fadeTo("black",100,2000);
       }
-    }
   }
   setTimeout(function(){ led.fadeTo("black",100,2000); }, 5000);
 
