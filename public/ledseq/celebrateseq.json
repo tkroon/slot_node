@@ -1,0 +1,18 @@
+{
+	"sequence":[  
+		{ "action": "fade", "color": "red", "bright": 100, "time": 500 },
+		{ "action": "fade", "color": "red", "bright": 0, "time": 600 },
+		{ "action": "fade", "color": "blue", "bright": 100, "time": 500 },
+		{ "action": "fade", "color": "blue", "bright": 0, "time": 600 },
+		{ "action": "fade", "color": "green", "bright": 100, "time": 500 },
+		{ "action": "fade", "color": "green", "bright": 0, "time": 600 },
+		{ "action": "fade", "color": "violet", "bright": 100, "time": 500 },
+		{ "action": "fade", "color": "violet", "bright": 0, "time": 600 },
+		{ "action": "fade", "color": "red", "bright": 100, "time": 500 },
+		{ "action": "fade", "color": "red", "bright": 0, "time": 600 },
+		{ "action": "fade", "color": "blue", "bright": 100, "time": 500 },
+		{ "action": "fade", "color": "blue", "bright": 0, "time": 600 },
+		{ "action": "fade", "color": "green", "bright": 100, "time": 600 },
+		{ "action": "set", "color": "black", "bright": 0, "time": 0 }
+    ]
+}

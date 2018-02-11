@@ -32,32 +32,70 @@ body {
 }
 
 .infoarea{
-	background:url("../images/payouttable2.png"); 
+	background-image:url("../images/slotplay.gif");
 	background-repeat:no-repeat;
 	background-size:contain;
 	background-color: white;
     height:210px;
-	width: 100%px;
+	width: 100%;
+	border-left:1px solid #2ea0f7;
+	border-right:1px solid #2ea0f7;
+	border-bottom:1px solid #2ea0f7;
 }
 
 .infoarea .instructions {
 	float:right;
-	text-align: left;
+	text-align: center;
 	display: block;
 	width: 370px;
 	font-family: "verdana";
-	font-size: 16px;
+	font-size: 20px;
 	font-style: bold;
 }
 
-.infoarea .instructions span {
-	font-size: 11px;
-	text-align: middle;
-	display: block;
+.infoarea .instructions p {
+	text-align: right;
+	margin-right: 60px;
+}
+
+.infoarea .leftinstructions {
+	float:left;
+	text-align: center;
+	display: none;
+	width: 370px;
+	font-family: "verdana";
+	font-size: 20px;
+	font-style: bold;
+	margin-top: 30px;
+}
+
+.mathline {
+	border: 1px solid #2ea0f7;
+}
+
+.infoarea .instructions h2 {
+	float: center;
+	margin-top: 10px;
 }
 
 .infoarea .instructions h3 {
 	float: center;
+}
+
+.sidebar {
+	float: left;
+  	width: 60%;
+	text-align: right;
+}
+
+.content {
+	float: right;
+	width: 40%;
+	text-align: right;
+}
+
+#cleared {
+  clear: both;
 }
 
 button {
@@ -106,6 +144,20 @@ button {
 	width: 100%;
 }
 
+.status-message {
+	font-family: "Verdana";
+	font-style: bold;
+	font-size: 30px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 400;
+	line-height: 40px;
+	text-align: left;
+	background-color: white;
+	width: 100%;
+	border:1px solid #2ea0f7;
+}
+
 .status div {margin-left: 2px; float:left;width:33%;}
 
 #result{
@@ -123,7 +175,9 @@ button {
 }
 
 .note {
-	float:right;
+	float: right;
+	font-size: 15px;
+	margin-right: 10px;
 }
 
 li {
@@ -170,4 +224,9 @@ li {
 @font-face {
 	font-family: 'Sigmar One';
 	src: url('SigmarOne-Regular.ttf'); 
+}
+
+.money {
+	color: green;
+	font-size: 30px;
 }

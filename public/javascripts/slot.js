@@ -1,4 +1,5 @@
 /**
+/**
 * Slot machine
 * Author: Saurabh Odhyan | http://odhyan.com
 *
@@ -6,8 +7,39 @@
 * You may obtain a copy of the License at
 * http://creativecommons.org/licenses/by-sa/3.0/
 *
-* Date: May 23, 2011 
+* Date: May 23, 2011
 */
+
+function hideCalc(message) {
+    window.clearInterval(calcTimer);
+    $('.infoarea').css({'background-image':'url("../images/slotplay.gif")'});
+    $('#leftinfo').hide();
+    if (message == '') message = '&nbsp;';
+    $('#result').html(message);
+    //promoTimer = window.setInterval(function(){ promo('background','loop'); }, promoInterval);
+};
+    
+function showCalc() {
+    window.clearInterval(calcTimer);
+    $('.infoarea').css({'background-image':'none'});
+    $('#leftinfo').show();
+    window.clearInterval(promoTimer);
+    //promo('background','stop');
+    //calcTimer = window.setInterval(function(){ hideCalc(); }, calcInterval);
+};
+    
+function promo(sound,action) {
+    $('#result').html('&nbsp;');
+    window.clearInterval(promoTimer);
+    $.ajax({
+        url: '/api/sound/' + sound + "/" + action,
+        type: 'GET',
+        data: "",
+        success: function(data) {
+        }
+    });
+}
+
 $(document).ready(function() {
     /**
     * Global variables
@@ -15,6 +47,10 @@ $(document).ready(function() {
     var completed = 0,
         imgHeight = 1187, //5700
         GREENDOLLAR = 'dollar';
+        calcTimer = null; //holds setInterval of the calc hide/show 
+        promoTimer = null; //holds promoInterval for sound play/stop
+        calcInterval = 30000;
+        promoInterval = 60 * 1000 * 3;
         minBet = 5;
         bet = 0;
         posArr = [
@@ -41,7 +77,7 @@ $(document).ready(function() {
         this.el = el; //dom element of the slot
         this.maxSpeed = max; //max speed this slot can have
         this.pos = null; //final position of the slot 
-        this.pic = win[0]; // the picture that is showing   
+        this.pic = win[0]; // the picture that is showing  
 
         $(el).pan({
             fps:20,
@@ -56,6 +92,7 @@ $(document).ready(function() {
     */
     Slot.prototype.start = function() {
         var _this = this;
+        showCalc();
         //$(_this.el).addClass('motion');
         this.maxSpeed = (Math.random() * 80) + 30;
         this.step = (Math.random()) * 3 + 1;
@@ -147,7 +184,7 @@ $(document).ready(function() {
             }
         });
     };
-    
+
     /**
     * @method reset
     * Reset a slot to initial state
@@ -229,9 +266,15 @@ $(document).ready(function() {
                 $('#bet').text(res[1]);
                 $('#total').text(res[2]);
 		        $('#user').text(res[3]);
-		        $('#result').html(res[4]);
+                $('#result').html(res[4]);
+                // extra values        
+                $('#thisbet').text(res[1]);
+                $('#grandtotal').text(res[2]);
+                $('#lastCash').text(res[5]);
+                $('#winloose').text(res[6]);
             }
         });
+        calcTimer = window.setInterval(function(){ hideCalc(); }, calcInterval);
         bet = 0; // reset to zero bet
     }
 

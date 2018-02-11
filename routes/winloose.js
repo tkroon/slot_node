@@ -3,7 +3,6 @@ setStatus = function(multiplier, dollars, total) {
   state="ready";
   status = util.getStatus(multiplier, dollars, total);
   bet=0;
-  console.log("in setStatus");
   return status;
 }
 
@@ -25,23 +24,29 @@ router.put('/pay/:multiplier', function(req, res, next) {
     loose.stop();
     loose.play();
     led.setTo("blue", 100);
-    util.wait(1500);
+    util.wait(1000);
     led.fadeTo("black", 100, 4500);
   } else {
+    dollars += bet;
     dollars = bet * multiplier;
         // JACKPOT
     if( multiplier > 99) {
+      jackpot.stop();
+      jackpot.play();
+      util.wait(1000);
       champions.stop();
       champions.play();
-      led.fadeTo("red", 100, 1000);
-      led.fadeTo("blue", 100, 1000);
-      led.fadeTo("green", 100, 1000);
-      led.fadeTo("black", 100, 2000);
+      led.playLedSequence(0,celebrateseq.sequence);
     } else { // REGULAR WIN
-      bugsgold.stop();
-      bugsgold.play();
-      led.fadeTo("orange", 100, 1000);
-      //led.fadeTo("black", 100, 2000);
+      if (Math.round(Math.random())==1) {
+        celebrate.stop();
+        celebrate.play();
+        led.playLedSequence(0,celebrateseq.sequence);
+      } else {
+        happy.stop();
+        happy.play();
+        led.playLedSequence(0,happyseq.sequence);
+      }
     }
   }
   setTimeout(function(){ led.fadeTo("black",100,2000); }, 5000);

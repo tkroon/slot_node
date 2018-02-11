@@ -3,9 +3,12 @@ betNow = function(userId) {
   //console.log("inside betNow");
   if(bet < (3 * betIncrement) && winTotal >= betIncrement) {
     bet += betIncrement;
+    if (bet == betIncrement) {
+      // only reset lastCash if this is the first bet of a spin
+      lastCash = winTotal;
+    }
     winTotal -= betIncrement;
     //bell.play();
-    
     state = "bet";
   }
   if (bet >= (3 * betIncrement) || winTotal <= 0) {
@@ -13,9 +16,9 @@ betNow = function(userId) {
     util.say('MAX BET ' + bet + ' PULL PAW')
   } else {
     util.say('BET ' + bet)
-    message += 'Insert again pass -or- PULL PAW'; //  (bet: ' + util.moneyFormat(bet) + ")";
+    message += 'Insert ' + lanyardName + ' again -or- PULL PAW'; //  (bet: ' + util.moneyFormat(bet) + ")";
   }
-  mySocket.sockets.emit('messages', 'show|' + util.moneyFormat(bet) + "|" + util.moneyFormat(winTotal) + "|" + currentUser + "|" + message);
+  mySocket.sockets.emit('messages', 'show|' + util.moneyFormat(bet) + "|" + util.moneyFormat(winTotal) + "|" + currentUser + "|" + message + "|" + util.moneyFormat(lastCash) + "|0");
 }
 
 router.get('/bet/:userId', function(req, res, next) {
@@ -26,6 +29,7 @@ router.get('/bet/:userId', function(req, res, next) {
     if(userId != currentUser) {
       util.initUser(userId, function(total) {
         winTotal = total;
+        lastCash = total;
         bet = 0;
         spins = 0;
         message += betNow(userId);
@@ -33,10 +37,10 @@ router.get('/bet/:userId', function(req, res, next) {
       });
     } else if(spins >= maxSpins) {
       state = "gameover";
-      message += '<font color="blue">Game Over</font>';
+      message += '<font color="blue">Game Over - cashout ' + util.moneyFormat(winTotal) + ' at bank</font>';
       byebye.stop();
       byebye.play();
-      mySocket.sockets.emit('messages', 'show|' + util.moneyFormat(bet) + "|" + util.moneyFormat(winTotal) + "|" + currentUser + "|" + message);
+      mySocket.sockets.emit('messages', 'over|' + util.moneyFormat(bet) + "|" + util.moneyFormat(winTotal) + "|" + currentUser + "|" + message + "|" + util.moneyFormat(lastCash) + "|0");
     } else {
       message += betNow(userId);
     }

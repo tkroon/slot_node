@@ -27,42 +27,30 @@
 			<div id="slot3" class="slot"></div>
 			<div class="clear"></div>
 		</div>
-		<div class="status" id="result">Good Luck!</div>
-		<div class="infoarea">
-			<div class="instructions">
-				<h2>Instructions 1 - 2 - 3</h2>
-				<ol>
-					<li>Insert Boarding Pass in slot below<br/>
-					Wait for bell sound then remove<br/>
-					($100 bet each insert -- max bet $300)</li>
-					<li>Pull paw to spin (5 spins/game)</li>
-					<li>Scan Pass @ bank to cash-out</li>
-				</ol>
+		<div class="status-message" id="result">&nbsp;</div>
+		<div class="infoarea" id="infoarea">
+			<div class="leftinstructions" id="leftinfo">
+				<div class="sidebar">Cash</div> 
+				<div class="content" id="lastCash">&nbsp;</div>
+				<div class="sidebar">Bet</div> 
+				<div class="content" id="thisbet">&nbsp;</div>
+				<div class="sidebar">Net</div> 
+				<div class="content" id="winloose">&nbsp;</div>
+				<div class="sidebar">&nbsp;</div><div class="content"><hr/></div>
+				<div class="sidebar">Your Total</div> 
+				<div class="content" id="grandtotal">&nbsp;</div>
+				<div id="cleared"></div>
 				<br/>
-				<div class="note">
-					<span></span>
-				</div>
+				<div class="note">Cash-out at bank when done</div>
+			</div>
+			<div class="instructions">
+				<h2>Odds</h2>
+				<p>Two of a Kind 10 X bet</p>
+				<p>Three of a Kind 100 X bet</p>
+				<p><span class="money">$ = BONUS</span></p>
 			</div>
 		</div>
 	</div>
-		<div class="demo">
-		<div class="drawinfo">
-			<div class="instructions">
-				<h2>Instructions 1 - 2 - 3</h2>
-				<ol>
-					<li>Insert Boarding Pass in slot below<br/>
-					Wait for bell sound then remove<br/>
-					($100 bet each insert -- max bet $300)</li>
-					<li>Pull paw to spin (5 spins/game)</li>
-					<li>Scan Pass @ bank to cash-out</li>
-				</ol>
-				<br/>
-				<div class="note">
-					<span></span>
-				</div>
-			</div>
-		</div>
-	</div>	
 	<div><button id="control">Spin</button></div>
 </div>
 </body>
@@ -78,14 +66,22 @@
 	if(res[0] == 'spin' && $('#control').attr("disabled", false)) 
 	{
 		bet = res[1];
-		//alert ("bet: " + bet);
+		$('#result').html('&nbsp;');
 		$('#control').click();
+		showCalc();
 	} else if(res[0]=='show') {
 		$('#bet').text(res[1]);
+		$('#thisbet').text(res[1]);
 		$('#total').text(res[2]);
+		$('#grandtotal').text(res[2]);
 		$('#user').text(res[3]);
 		$('#result').html(res[4]);
+		$('#lastCash').text(res[5]);
+		$('#winloose').text(res[6]);
 		bet = res[1];
+		showCalc();
+	} else if(res[0]=='over') {
+		hideCalc(res[4]);
 	}
  });
 </script> 

@@ -19,6 +19,7 @@ port = 3000;
 initialBank = 1000;
 betIncrement = 100;
 maxSpins = 5;
+lanyardName = "Ticket";
 
 //initialize
 currentUser = 0;
@@ -27,7 +28,9 @@ bet = 0;
 state = "ready";
 armstate = "up";
 winTotal = 0;
+lastCash = 0;
 timer = null;
+seqTimer = null;
 
 // save socket variables
 mySocket = io;

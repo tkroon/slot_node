@@ -13,6 +13,10 @@ global.loose = new Media('public/sounds/the-price-is-right-losing-horn.mp3');
 global.loose2 = new Media('public/sounds/gsmart01.mp3');
 global.bugsgold = new Media('public/sounds/bugs30.mp3');
 global.byebye = new Media('public/sounds/byebye.mp3');
+global.celebrate = new Media('public/sounds/celebrate.mp3');
+global.happy = new Media('public/sounds/happy.mp3');
+global.jackpot = new Media('public/sounds/jackpot.mp3');
+global.background = new Media('public/sounds/background_casino.mp3')
 
 // Routes for playing audio
 router.get('/play/stop', function(req, res, next) {
@@ -20,6 +24,9 @@ router.get('/play/stop', function(req, res, next) {
 });
 
 router.get('/play', function(req, res, next) {
+  jackpot.stop();
+  jackpot.play();
+  util.wait(1000);
   champions.stop();
   champions.play();
 });
@@ -28,6 +35,47 @@ router.get('/play', function(req, res, next) {
 router.get('/play/money', function(req, res, next) {
   inmoney.stop();
   inmoney.play();
+});
+
+router.get('/bet/:userId', function(req, res, next) {
+  var userId = req.params.userId;
+  var message = "";
+  win.stop();
+  if(userId != 'none') {
+    if(userId != currentUser) {
+      util.initUser(userId, function(total) {
+        winTotal = total;
+        bet = 0;
+        spins = 0;
+        message += betNow(userId);
+        //console.log("inside init callback");
+      });
+    } else if(spins >= maxSpins) {
+      state = "gameover";
+      message += '<font color="blue">Game Over</font>';
+      byebye.stop();
+      byebye.play();
+      mySocket.sockets.emit('messages', 'show|' + util.moneyFormat(bet) + "|" + util.moneyFormat(winTotal) + "|" + currentUser + "|" + message);
+    } else {
+      message += betNow(userId);
+    }
+  }
+  res.json({"userId": userId, "bet": bet});
+});
+
+// Routes for playing audio
+router.get('/sound/:sound/:action', function(req, res, next) {
+  var soundname = req.params.sound;
+  var action = req.params.action;
+
+  var sound = eval(soundname);
+  sound.stop();
+
+  if (action.indexOf('loop') !== -1) {
+      sound.play({loop: 100});
+  } else if (action.indexOf('play') !== -1) {
+      sound.play();
+  }
 });
 
 module.exports = router;

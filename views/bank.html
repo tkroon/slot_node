@@ -23,7 +23,7 @@
             disableScan = function() {
                 $('#payout').addClass("buttongrey");
                 $('#payout').attr("disabled", true);
-                $('#payout').text("Scan Boarding Pass");
+                $('#payout').text("Scan " + lanyardName);
                 $('#user').text(" ");
                 $('#total').text(" ");
             }
@@ -41,7 +41,7 @@
             <div>Student ID: <span id="user"></div>
             <div>Total: <span id="total"/></div>
             <div id="message"></div>
-            <div><button class="paidbutton buttongrey" id="payout" disabled>Scan Boarding Pass</button></div>
+            <div><button class="paidbutton buttongrey" id="payout" disabled>Scan Lanyard</button></div>
         </div>
     </div>
 

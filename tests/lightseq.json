@@ -1,0 +1,11 @@
+{
+    "sequence":[
+        { "action": "fade", "color": "red", "bright": 100, "time": 1000 },
+        { "action": "wait", "time": "1000"},
+        { "action": "set", "color": "purple", "bright": 100 },
+	{ "action": "fade", "color": "green", "bright": 100, "time": 2000 },
+	{ "action": "fade", "color": "blue", "bright": 100, "time": 3000 },
+        { "action": "fade", "color": "yellow", "bright": 100, "time": 4000 },
+        { "action": "set", "color": "black", "bright": 0 }
+    ]
+}

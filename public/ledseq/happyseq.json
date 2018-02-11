@@ -1,0 +1,31 @@
+{
+	"sequence":[
+		{ "action": "wait", "time": "500"},
+		{ "action": "set", "color": "white", "bright": 75 },
+		{ "action": "wait", "time": "150"},
+		{ "action": "set", "color": "black", "bright": 50 },
+		{ "action": "wait", "time": "150"},
+        { "action": "fade", "color": "white", "bright": 100, "time": 600 },
+		{ "action": "fade", "color": "green", "bright": 100, "time": 200 },
+		{ "action": "fade", "color": "blue", "bright": 100, "time": 300 },
+		{ "action": "fade", "color": "yellow", "bright": 100, "time": 200 },
+        { "action": "fade", "color": "violet", "bright": 100, "time":400 },
+		{ "action": "wait", "time": "500"},
+		{ "action": "set", "color": "white", "bright": 75 },
+		{ "action": "fade", "color": "green", "bright": 100, "time": 200 },
+		{ "action": "wait", "time": "500"},
+        { "action": "fade", "color": "yellow", "bright": 75, "time": 400 },
+        { "action": "fade", "color": "violet", "bright": 100, "time":200 },
+        { "action": "fade", "color": "red", "bright": 100, "time": 300 },
+		{ "action": "fade", "color": "green", "bright": 100, "time": 200 },
+		{ "action": "fade", "color": "blue", "bright": 100, "time": 200 },
+		{ "action": "fade", "color": "red", "bright": 100, "time": 300 },
+		{ "action": "fade", "color": "white", "bright": 75, "time": 200 },
+		{ "action": "wait", "time": "400"},
+		{ "action": "set", "color": "violet", "bright": 100 },
+		{ "action": "wait", "time": "400"},
+		{ "action": "set", "color": "white", "bright": 100 },
+		{ "action": "wait", "time": "200"},
+        { "action": "set", "color": "black", "bright": 0 }
+	]
+}

@@ -3,7 +3,11 @@ var util = require('./util.js');
 var RgbChannel = require('rpi-rgb').Channel;
 var Colour = require('rpi-rgb').Colour;
 var stripled = new RgbChannel(2,5,4);
- 
+var fs = require('fs');
+happyseq = require('../public/ledseq/happyseq.json');
+championseq = require('../public/ledseq/championseq.json');
+celebrateseq = require('../public/ledseq/celebrateseq.json');
+
 color = function(red,green,blue) {
   return new Colour(100-red,100-green,100-blue);
 }
@@ -86,6 +90,36 @@ exports.startRandomFade = function() {
   //console.log("color: " + rainbow_names[i] + "vxi: " + i + " time: " + time + " bright: " + bright);
   led.fadeTo(rainbow_names[i],bright,time);
   timer = setTimeout(function(){ led.startRandomFade(); }, time);
+}
+
+exports.playLedSequence = function(index,sequence) {
+  clearTimeout(seqTimer);
+  var time = 0;
+  var frame = sequence[index++];
+  if (frame != null) {
+    //console.log("This Frame: " + frame.action + " " + frame.color + " " + frame.bright + " " + frame.time);
+    switch(frame.action) {
+      case "fade":
+        led.fadeTo(frame.color, frame.bright, frame.time);
+        time = frame.time
+        break;
+      case "on":
+        led.setTo(frame.color, 100);
+        break;
+      case "off":
+        led.setTo(frame.color, 0);
+        break;
+      case "set":
+        led.setTo(frame.color, frame.bright);
+        break;
+      case "wait":
+        time = frame.time;
+        break;
+      default:
+        break;
+    }
+    seqTimer = setTimeout(function(){ led.playLedSequence(index, sequence); }, time);
+  }   
 }
 
 exports.stopRandomFade = function(timer) {

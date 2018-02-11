@@ -1,0 +1,9 @@
+{
+	"sequence":[  
+        { "action": "fade", "color": "white", "bright": 100, "time": 600 },
+		{ "action": "fade", "color": "green", "bright": 100, "time": 200 },
+		{ "action": "fade", "color": "blue", "bright": 100, "time": 300 },
+		{ "action": "fade", "color": "yellow", "bright": 100, "time": 200 },
+        { "action": "fade", "color": "violet", "bright": 100, "time":400 }
+    ]
+}

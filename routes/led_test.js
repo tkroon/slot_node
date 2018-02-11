@@ -23,4 +23,14 @@ router.get('/led/off', function(req, res, next) {
   res.json({"result":"off"})
 });
 
+// Routes for playing audio
+router.post('/led/sequence', function(req, res, next) {
+  sequence=req.body.sequence;
+  happy.stop();
+  happy.play();
+  console.log(happyseq);
+  led.playLedSequence(0,happyseq.sequence);
+  res.json({});
+});
+
 module.exports = router;

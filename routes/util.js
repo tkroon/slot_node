@@ -43,7 +43,8 @@ exports.getWinTotal = function(callback) {
 
 exports.getStatus = function(multiplier, dollars, total)  {
   // bet|total|message
-  var message = "0|" + util.moneyFormat(total) + "|" + currentUser + "|" + util.getSpinMessage(multiplier, dollars, total);
+  var message = "0|" + util.moneyFormat(total) + "|" + currentUser + "|" + util.getSpinMessage(multiplier, dollars, total) + "|" + util.moneyFormat(lastCash) + "|" + util.moneyFormat(dollars);
+  console.log("debug: " + message);
   return message;
 }
 
@@ -54,15 +55,18 @@ exports.getSpinMessage = function(multiplier, dollars, total)  {
   var message = "";
   if (multiplier == 0)
   {
-    message = "Lost " + util.moneyFormat(bet) + " bet SORRY";
+    message = "Lost " + util.moneyFormat(bet);
   } 
   else 
   {
     message = "Winner! " + multiplier + " x " + util.moneyFormat(bet) + " = <font color='green'>" + util.moneyFormat(dollars) + "</font>";
   }
-  message = message + " (" + (maxSpins - spins) + " spins remaining)";
-  console.log("<p>" + message + "</p>");
-
+  if (spins == maxSpins) {
+    message = message + " - game over";
+  } else {
+    message = message + " (pull: " + spins + " of " + maxSpins + ")";
+  }
+  //console.log("<p>" + message + "</p>");
   return message;
 }
 
@@ -107,6 +111,6 @@ exports.armspin = function() {
     util.say('Game over');
   } else if( state != "spinning" && bet ==0) {
     win.stop();
-    util.say('Insert Pass');
+    util.say('Insert ' + lanyardName);
   }
 }
