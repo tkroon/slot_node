@@ -18,7 +18,7 @@ port = 3000;
 // configured values 
 initialBank = 1000;
 betIncrement = 100;
-maxSpins = 1;
+maxSpins = 5;
 lanyardName = "Ticket";
 
 //initialize
@@ -31,6 +31,8 @@ winTotal = 0;
 lastCash = 0;
 timer = null;
 seqTimer = null;
+promoTimer = null;
+promoDelay = 1000 * 60 * 3; // 1000ms/sec * 60 sec/min * 3 minute delay before casino promo sounds
 
 // save socket variables
 mySocket = io;
@@ -73,7 +75,9 @@ app.use(function(err, req, res, next) {
 
 io.on('connection', function(client) {  
     console.log('Client connected...');
-    global.slotUi = client; 
+    global.slotUi = client;
+    util.resetPromo();
+    background.play({loop: 0});
 });
 
 server.listen(4200); 

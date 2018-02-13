@@ -17,21 +17,16 @@ function hideCalc(message) {
     if (message == undefined) message = '&nbsp;';
     $('#result').html(message);
     window.clearInterval(calcTimer);
-    //promoTimer = window.setInterval(function(){ promo('background','loop'); }, promoInterval);
 };
     
 function showCalc() {
     window.clearInterval(calcTimer);
     $('.infoarea').css({'background-image':'none'});
     $('#leftinfo').show();
-    window.clearInterval(promoTimer);
-    //promo('background','stop');
-    //calcTimer = window.setInterval(function(){ hideCalc(); }, calcInterval);
 };
     
 function promo(sound,action) {
     $('#result').html('&nbsp;');
-    window.clearInterval(promoTimer);
     $.ajax({
         url: '/api/sound/' + sound + "/" + action,
         type: 'GET',
@@ -49,9 +44,7 @@ $(document).ready(function() {
         imgHeight = 1187, //5700
         GREENDOLLAR = 'dollar';
         calcTimer = null; //holds setInterval of the calc hide/show 
-        promoTimer = null; //holds promoInterval for sound play/stop
         calcInterval = 30000;
-        promoInterval = 60 * 1000 * 3;
         minBet = 5;
         bet = 0;
         posArr = [
@@ -270,7 +263,7 @@ $(document).ready(function() {
                 $('#winloose').text(res[6]);
             }
         });
-        calcTimer = window.setInterval(function(){ hideCalc(); }, calcInterval);
+        calcTimer = window.setInterval(function(){ hideCalc('<div class="alert">Cash-out at bank when done</div>'); }, calcInterval);
         bet = 0; // reset to zero bet
     }
 

@@ -28,7 +28,7 @@ router.post('/led/sequence', function(req, res, next) {
   sequence=req.body.sequence;
   happy.stop();
   happy.play();
-  console.log(happyseq);
+  //console.log(happyseq);
   led.playLedSequence(0,happyseq.sequence);
   res.json({});
 });

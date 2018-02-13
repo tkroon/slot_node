@@ -55,6 +55,7 @@ router.put('/pay/:multiplier', function(req, res, next) {
       }
   }
   setTimeout(function(){ led.fadeTo("black",100,2000); }, 5000);
+  util.resetPromo();
 
   updatewin.run(dollars, currentUser, function(err, row){
     if (err) {
@@ -72,7 +73,7 @@ router.put('/pay/:multiplier', function(req, res, next) {
 
 router.get('/winnings', function(req, res, next) {
   util.getWinTotal(function(winTotal) {
-    console.log("Total Win:  " + winTotal);
+    //console.log("Total Win:  " + winTotal);
     res.json({"total": winTotal});
   });
 });

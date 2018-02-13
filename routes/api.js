@@ -27,14 +27,14 @@ armdown = new Gpio(18, 'in', 'falling');
 armup = new Gpio(17, 'in', 'both');
 
 armdown.watch(function(err,value) {
-  console.log("Arm down gpio 18 value: " + value);
+  //console.log("Arm down gpio 18 value: " + value);
   if(value == 0) {
     util.armspin();
   }
 });
 
 armup.watch(function(err,value) {
-  console.log("Arm up gpio 17 value: " + value);
+  //console.log("Arm up gpio 17 value: " + value);
   if (value == 0) { // up
     armstate="up"
     pullsound.stop();

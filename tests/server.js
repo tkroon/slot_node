@@ -22,7 +22,7 @@ var requestHandler = function(request) {
             if (data.cmd === 'spawnServer') {
                 var delay = Number(data.delay);
 
-                console.log('delay server spawn '+delay);
+                console.log('delay server spawn '+ delay);
 
                 setTimeout(function() {
                     spawnServer(data.port);
@@ -45,7 +45,7 @@ var requestHandler = function(request) {
 }
 
 var spawnServer = function(port) {
-    console.log('spawn server on port '+port);
+    console.log('spawn server on port '+ port);
     var server = http.createServer(function(request, response) {
     });
     server.listen(port, function() { });

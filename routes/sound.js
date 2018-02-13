@@ -46,27 +46,10 @@ router.get('/sound/:sound/:action', function(req, res, next) {
   sound.stop();
 
   if (action.indexOf('loop') !== -1) {
-      sound.play({loop: 100});
+      sound.play({loop: 0}); // sound.play({loop: 0}) //send "-loop 0" to MPlayer to loop the soundtrack forever 
   } else if (action.indexOf('play') !== -1) {
       sound.play();
   }
 });
 
 module.exports = router;
-
-/*
-music.play({loop: 0}); // send "-loop 0" to MPlayer to loop the soundtrack forever 
- 
-setTimeout(function () {
-    music.pause(); // pause the music after one seconds 
-}, 1000);
- 
-setTimeout(function () {
-    music.resume(); // and resume it two seconds after pausing 
-}, 3000);
- 
-setTimeout(function () {
-    music.stop(); // and stop definitely seven seconds after resuming 
-}, 10000);
-
-*/

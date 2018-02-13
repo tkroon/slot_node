@@ -25,6 +25,7 @@ router.get('/bet/:userId', function(req, res, next) {
   var userId = req.param('userId');
   var message = "";
   win.stop();
+  util.resetPromo();
   if(userId != 'none') {
     if(userId != currentUser) {
       util.initUser(userId, function(total) {

@@ -21,11 +21,11 @@ setBrightness = function(setColor,bright){
       var green = Math.floor((100-colorObj.green) * percent);
       var blue = Math.floor((100-colorObj.blue) * percent);
       var newColor = color(red,green,blue)
-      console.log("red: " + red + " green: " + green + " blue: " + blue);
+      //console.log("red: " + red + " green: " + green + " blue: " + blue);
       return newColor;
     }
   } catch (err) { 
-    console.log("setBrightness Error: " + err);
+    //console.log("setBrightness Error: " + err);
   }
   return black;
 }

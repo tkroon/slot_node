@@ -101,7 +101,8 @@ exports.armspin = function() {
     pullsound.stop();
     spinsound.stop();
     win.stop();
-    spinsound.play({loop: 5}); 
+    util.resetPromo();
+    spinsound.play(); 
     state="spinning";
     armstate="down";
     //spins += 1;
@@ -112,5 +113,12 @@ exports.armspin = function() {
   } else if( state != "spinning" && bet ==0) {
     win.stop();
     util.say('Insert ' + lanyardName);
+    mySocket.sockets.emit('messages', 'over||||Insert ' + lanyardName);
   }
+}
+
+exports.resetPromo = function() {
+  background.stop();
+  clearTimeout(promoTimer);
+  promoTimer = setInterval(function() {background.play({loop: 0});}, promoDelay);
 }
