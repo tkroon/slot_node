@@ -109,7 +109,7 @@ exports.armspin = function() {
     led.startRandomFade();
     mySocket.sockets.emit('messages', 'spin|'+  bet);
   } else if( state == "gameover") {
-    util.say('Game over go to bank or play later');
+    util.say('Game over');
   } else if( state != "spinning" && bet ==0) {
     win.stop();
     util.say('Insert ' + lanyardName);
@@ -120,5 +120,5 @@ exports.armspin = function() {
 exports.resetPromo = function() {
   background.stop();
   clearTimeout(promoTimer);
-  promoTimer = setInterval(function() {background.play({loop: 0});}, promoDelay);
+  promoTimer = setTimeout(function() {background.play({loop: 0});}, promoDelay);
 }
