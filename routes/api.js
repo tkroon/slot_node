@@ -69,12 +69,12 @@ router.get('/status', function(req, res, next) {
 
 router.get('/selftest', function(req, res, next) {
   selftest();
-  res.send('testing');
+  res.send('self test');
 });
 
 router.get('/spin', function(req, res, next) {
   util.armspin();
-  res.send('testing spin');
+  res.send('spin');
 });
 
 util.selftest();
