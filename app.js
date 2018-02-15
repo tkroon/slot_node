@@ -12,8 +12,8 @@ var api = require('./routes/api');
 var app = express();
 
 // slot machines
-//slotHosts = ['192.168.1.200', '192.168.1.201'];
-slotHosts = ['127.0.0.1'];
+slotHosts = ['192.168.1.200', '192.168.1.201'];
+//slotHosts = ['127.0.0.1'];
 port = 3000;
 
 // configured values 
