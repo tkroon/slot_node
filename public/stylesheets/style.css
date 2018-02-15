@@ -1,8 +1,12 @@
 body {
-	background:url("../images/money_trimed.png") repeat-y; 
 	font-family:verdana;
 	padding:0px;
 }
+
+.slots {
+	background:url("../images/money_trimed.png") repeat-y; 
+}
+
 .bd {
 	text-align:center;
 }
@@ -55,7 +59,7 @@ body {
 
 .infoarea .instructions p {
 	text-align: right;
-	margin-right: 30px;
+	margin-right: 20px;
 }
 
 .infoarea .instructions img {

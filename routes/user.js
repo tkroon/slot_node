@@ -24,6 +24,7 @@ router.get('/user/:userId', function(req, res, next) {
 
 getRemoteTotal = function(userId, host, port) {
 // Return a new promise.
+  console.log("getRemoteTotal - host: " + host);
   return new Promise(function(resolve, reject) {
     var options = {
       host: host,
@@ -70,14 +71,14 @@ router.get('/user/getTotal/:userId', function(req, res, next) {
 });
 
 router.get('/user/markPaid/:userId', function(req, res, next) {
-  var userId = req.param('userId');
+  var userId = req.params.userId;
   payout.run(userId);
   res.send("Payment Complete");
 });
 
 router.get('/user/payout/:userId', function(req, res, next) {
   console.log("inside payout");
-  var userId = req.param('userId');
+  var userId = req.params.userId;
   beep.play();
   var promises = [];
   slotHosts.forEach(function(host){

@@ -12,7 +12,8 @@ var api = require('./routes/api');
 var app = express();
 
 // slot machines
-slotHosts = ['192.168.1.200', '192.168.1.201'];
+//slotHosts = ['192.168.1.200', '192.168.1.201'];
+slotHosts = ['127.0.0.1'];
 port = 3000;
 
 // configured values 
@@ -32,7 +33,7 @@ lastCash = 0;
 timer = null;
 seqTimer = null;
 promoTimer = null;
-promoDelay = 1000 * 60 * 2; // 1000ms/sec * 60 sec/min * 2 minute delay before casino promo sounds
+promoDelay = 1000 * 60 * 3; // 1000ms/sec * 60 sec/min * 3 minute delay before casino promo sounds
 
 // save socket variables
 mySocket = io;
@@ -77,7 +78,6 @@ io.on('connection', function(client) {
     console.log('Client connected...');
     global.slotUi = client;
     util.resetPromo();
-    background.play({loop: 0});
 });
 
 server.listen(4200); 

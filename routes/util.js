@@ -120,5 +120,5 @@ exports.armspin = function() {
 exports.resetPromo = function() {
   background.stop();
   clearTimeout(promoTimer);
-  promoTimer = setTimeout(function() {background.play({loop: 0});}, promoDelay);
+  promoTimer = setTimeout(function() {background.stop(); background.play();}, promoDelay);
 }
