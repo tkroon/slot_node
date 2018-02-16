@@ -200,6 +200,7 @@ li {
 }
 
 .bankheader {
+	width: 180px;
 	float: left;
 }
 
@@ -234,6 +235,10 @@ li {
 .center1 {
     margin: auto;
     width: 50%;
+}
+
+.icons {
+	margin-left:40px;
 }
 
 @font-face {

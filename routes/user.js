@@ -55,6 +55,51 @@ getRemoteTotal = function(userId, host, port) {
   });
 }
 
+setRemotePaid = function(userId, host, port) {
+  // Return a new promise.
+    console.log("setRemotePaid - host: " + host);
+    return new Promise(function(resolve, reject) {
+      var options = {
+        host: host,
+        path: '/api/user/markPaid/' + userId,
+        port: port
+      };
+  
+      var req =  http.get(options, function(res) {
+        console.log('STATUS: ' + res.statusCode);
+        console.log('HEADERS: ' + JSON.stringify(res.headers));
+        // Buffer the body entirely for processing as a whole.
+        var bodyChunks = [];
+        res.on('data', function(chunk) {
+          // You can process streamed parts here...
+          bodyChunks.push(chunk);
+        }).on('end', function() {
+          resolve('Done');
+        })
+      });
+      req.on('error', function(e) {
+        console.log('ERROR: ' + e.message);
+        resolve('Error');
+      });
+    });
+  }
+  
+router.get('/user/markRemotePaid/:userId', function(req, res, next) {
+  var userId = req.params.userId;
+  var promises = [];
+  slotHosts.forEach(function(host){
+    promises.push(setRemotePaid(userId,host,port));
+  });
+  Promise.all(promises)
+    .then(function(results) {
+      res.send("Payment Complete");
+    })
+  . catch(function(e) {
+      console.log("An Error marking paid");
+      res.send("Payment Error");
+  })
+});
+
 router.get('/user/getTotal/:userId', function(req, res, next) {
   console.log("getting user total");
   var userId = req.param('userId');
