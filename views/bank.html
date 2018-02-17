@@ -10,38 +10,40 @@
         var userId = 0;
         $(document).ready(function() {
             $('#payout').click(function() {
+                disableScan();
                 $.ajax({
-                    url: '/api/user/markpaid/' + userId,
-                    type: 'PUT',
+                    url: '/api/user/markRemotePaid/' + userId,
+                    type: 'GET',
                     data: "",
                     success: function(data) {
                         $('#message').text(data);
                     }
                 })
-                disableScan();
             });
             disableScan = function() {
+                $('#payout').text("Scan a new Ticket");
+                //$('#user').text(" ");
+                $('#total').text("$0");
                 $('#payout').addClass("buttongrey");
                 $('#payout').attr("disabled", true);
-                $('#payout').text("Scan " + lanyardName);
-                $('#user').text(" ");
-                $('#total').text(" ");
             }
         });
     </script>
   </head>
   <body>
     <div class="center">
-        <div class="bankheader"><img class="icon" src="../../images/F.png"/></div>
-        <div class="bankheader"><img class="icon" src="../../images/p.png"/></div>
-        <div class="bankheader"><img class="icon" src="../../images/paw.png"/></div>
-        <div class="bankheader"><img class="icon" src="../../images/$.png"/></div>
+        <div class="icons">
+            <div class="bankheader"><img class="icon" src="../../images/F.png"/></div>
+            <div class="bankheader"><img class="icon" src="../../images/p.png"/></div>
+            <div class="bankheader"><img class="icon" src="../../images/paw.png"/></div>
+            <div class="bankheader"><img class="icon" src="../../images/$.png"/></div>
+        </div>
         <div class="clear"></div>
         <div class="paycontrol">
             <div>Student ID: <span id="user"></div>
             <div>Total: <span id="total"/></div>
             <div id="message"></div>
-            <div><button class="paidbutton buttongrey" id="payout" disabled>Scan Lanyard</button></div>
+            <div><button class="paidbutton buttongrey" id="payout" disabled>Scan Ticket</button></div>
         </div>
     </div>
 
@@ -52,25 +54,27 @@
     socket.on('messages', function(data) {
         var res = data.split("|");
         //alert(data);
+        userId = res[1];
+        total = res[2];
         if(res[0] == 'payout') 
         {
+            // enable button and show payout value
             $('#payout').removeClass("buttongrey");
             $('#payout').attr("disabled", false);
             $('#payout').text("Touch when PAID");
-            userId = res[1];
-            $('#user').text(res[1]);
-            total = res[2];
+            $('#user').text(res[1]);    
             $('#total').text(res[2]);
             $('#message').text(" ");
         } else if (res[0] == 'message') {
             disableScan();
-            userId = res[1];
             $('#user').text(res[1]);
-            total = res[2];
             $('#total').text(res[2]);
             $('#message').text(res[3]);
+        } else if (res[0] == 'found') { 
+            $('#user').text(res[1]);
+            //$('#total').text(res[2]);
+            $('#message').html(res[3]);              
         }
-
     });
  </script>
   </body></html>
