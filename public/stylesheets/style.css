@@ -191,6 +191,13 @@ button {
 	color: red;
 }
 
+.progress {
+	background:url("../images/progress.gif"); 
+	width:25px;
+	height:25px;
+	float:left;
+}
+
 .alert {
 	color: red;
 }

@@ -124,6 +124,8 @@ router.get('/user/markPaid/:userId', function(req, res, next) {
 router.get('/user/payout/:userId', function(req, res, next) {
   console.log("inside payout");
   var userId = req.params.userId;
+  mySocket.sockets.emit('messages', 'found|' + userId 
+    + '|0|<span class="alert"><img v-align="middle" height="30" width="30" src="../../images/progress.gif"/> getting Total</span>');
   beep.play();
   var promises = [];
   slotHosts.forEach(function(host){
