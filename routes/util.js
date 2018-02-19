@@ -100,7 +100,6 @@ exports.armspin = function() {
   if( state == "bet" ){
     spinsound.stop();
     win.stop();
-    util.resetPromo();
     spinsound.play(); 
     state="spinning";
     armstate="down";

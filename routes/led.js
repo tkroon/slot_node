@@ -92,7 +92,7 @@ exports.startRandomFade = function(maxbrightarg, delaymsarg) {
   var bright = Math.round(Math.round(Math.random() * maxbright));  
   //console.log("color: " + rainbow_names[i] + "vxi: " + i + " time: " + time + " bright: " + bright);
   led.fadeTo(rainbow_names[i],bright,time);
-  timer = setTimeout(function(){ led.startRandomFade(maxbright, delayms); }, time);
+  randomfadetimer = setTimeout(function(){ led.startRandomFade(maxbright, delayms); }, time);
 }
 
 exports.playLedSequence = function(sequence, indexarg) {
@@ -132,6 +132,8 @@ exports.stopLedSequence = function() {
 }
 
 exports.stopRandomFade = function() {
-  clearTimeout(timer);
-  led.fadeTo("black", 100, 1000);
+  clearTimeout(randomfadetimer);
+  led.setTo("black", 100);
+  clearTimeout(randomfadetimer);
+  led.setTo("black", 100);
 }
