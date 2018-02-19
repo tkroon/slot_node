@@ -96,16 +96,14 @@ exports.moneyFormat = function numberWithCommas(x) {
 }
 
 exports.armspin = function() {
-  console.log("bet: " + bet + " state: " + state);
+  //console.log("bet: " + bet + " state: " + state);
   if( state == "bet" ){
-    pullsound.stop();
     spinsound.stop();
     win.stop();
     util.resetPromo();
     spinsound.play(); 
     state="spinning";
     armstate="down";
-    //spins += 1;
     led.startRandomFade();
     mySocket.sockets.emit('messages', 'spin|'+  bet);
   } else if( state == "gameover") {
@@ -119,7 +117,6 @@ exports.armspin = function() {
 
 exports.resetPromo = function() {
   background.stop();
-  //led.stopLedSequence();
   led.stopRandomFade();
   clearTimeout(promoTimer);
   promoTimer = setTimeout(function() {util.promo();}, promoDelay);
@@ -129,5 +126,4 @@ exports.promo = function() {
   util.resetPromo();
   background.play();
   led.startRandomFade(50,2000); // default is max bright 100, fade delay 500 so this is dimmer and slower
-  //led.playLedSequence(promoseq.sequence);
 }

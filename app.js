@@ -33,7 +33,7 @@ lastCash = 0;
 timer = null;
 seqTimer = null;
 promoTimer = null;
-promoDelay = 1000 * 60 * 1.25; // 1000ms/sec * 60 sec/min * 1.25 minute delay before casino promo sounds
+promoDelay = 1000 * 60 * 1.5; // 1000ms/sec * 60 sec/min * minutes delay before casino promo sounds
 
 // save socket variables
 mySocket = io;

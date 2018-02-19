@@ -8,7 +8,7 @@ setStatus = function(multiplier, dollars, total) {
 
 router.put('/pay/:multiplier', function(req, res, next) {
   //console.log("inside PAY");
-  led.stopRandomFade(timer);
+  led.stopRandomFade();
   spinsound.stop();
   win.stop();
   var dollars = 0;
