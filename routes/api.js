@@ -41,9 +41,8 @@ armup.watch(function(err,value) {
     pullsound.stop();
   }
   if( state == "bet" && armstate == "up" && value == 1 ) { // not up
-    armstate = "moving"
-    pullsound.stop();
     pullsound.play();
+    armstate = "moving"    
   }
 });
 

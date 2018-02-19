@@ -128,7 +128,7 @@ exports.playLedSequence = function(sequence, indexarg) {
 
 exports.stopLedSequence = function() {
   clearTimeout(seqTimer);
-  led.fadeTo("black", 100, 1000);
+  led.setTo("black", 100);
 }
 
 exports.stopRandomFade = function() {
