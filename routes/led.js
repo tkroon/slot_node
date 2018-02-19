@@ -123,6 +123,10 @@ exports.playLedSequence = function(sequence, indexarg) {
   }   
 }
 
+exports.stopLedSequence = function() {
+  clearTimeout(seqTimer);
+}
+
 exports.stopRandomFade = function(timer) {
   clearTimeout(timer);
 }
