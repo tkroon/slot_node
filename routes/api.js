@@ -29,7 +29,6 @@ armup = new Gpio(17, 'in', 'both');
 armdown.watch(function(err,value) {
   //console.log("Arm down gpio 18 value: " + value);
   if(value == 0) {
-    util.resetPromo();
     util.armspin();
   }
 });

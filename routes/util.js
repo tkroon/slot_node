@@ -109,6 +109,7 @@ exports.armspin = function() {
     util.say('Game over');
   } else if( state != "spinning" && bet ==0) {
     win.stop();
+    util.resetPromo();
     util.say('Insert ' + lanyardName);
     mySocket.sockets.emit('messages', 'over||||Insert ' + lanyardName);
   }
