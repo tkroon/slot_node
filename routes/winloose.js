@@ -36,16 +36,16 @@ router.put('/pay/:multiplier', function(req, res, next) {
       util.wait(1000);
       champions.stop();
       champions.play();
-      led.playLedSequence(0,celebrateseq.sequence);
+      led.playLedSequence(celebrateseq.sequence);
     } else if (multiplier > 5) { // REGULAR WIN
       if (Math.round(Math.random())==1) {
         celebrate.stop();
         celebrate.play();
-        led.playLedSequence(0,celebrateseq.sequence);
+        led.playLedSequence(celebrateseq.sequence);
       } else {
         happy.stop();
         happy.play();
-        led.playLedSequence(0,happyseq.sequence);
+        led.playLedSequence(happyseq.sequence);
       } 
     } else { // BREAK EVEN
         winwoop.stop();

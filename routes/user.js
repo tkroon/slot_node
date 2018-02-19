@@ -92,7 +92,7 @@ router.get('/user/markRemotePaid/:userId', function(req, res, next) {
   });
   Promise.all(promises)
     .then(function(results) {
-      res.send("Payment Complete");
+      res.send("Payment Complete -- scan a new ticket");
     })
   . catch(function(e) {
       console.log("An Error marking paid");

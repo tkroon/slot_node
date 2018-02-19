@@ -92,7 +92,7 @@ exports.startRandomFade = function() {
   timer = setTimeout(function(){ led.startRandomFade(); }, time);
 }
 
-exports.playLedSequence = function(index,sequence) {
+exports.playLedSequence = function(sequence, index = 0) {
   clearTimeout(seqTimer);
   var time = 0;
   var frame = sequence[index++];
@@ -118,7 +118,7 @@ exports.playLedSequence = function(index,sequence) {
       default:
         break;
     }
-    seqTimer = setTimeout(function(){ led.playLedSequence(index, sequence); }, time);
+    seqTimer = setTimeout(function(){ led.playLedSequence(sequence, index); }, time);
   }   
 }
 
