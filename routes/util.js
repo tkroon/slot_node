@@ -119,7 +119,8 @@ exports.armspin = function() {
 
 exports.resetPromo = function() {
   background.stop();
-  led.stopLedSequence();
+  //led.stopLedSequence();
+  led.stopRandomFade();
   clearTimeout(promoTimer);
   promoTimer = setTimeout(function() {util.promo();}, promoDelay);
 }
@@ -127,5 +128,6 @@ exports.resetPromo = function() {
 exports.promo = function() {
   util.resetPromo();
   background.play();
-  led.playLedSequence(promoseq.sequence);
+  led.startRandomFade(50,2000); // default is max bright 100, fade delay 500 so this is dimmer and slower
+  //led.playLedSequence(promoseq.sequence);
 }
