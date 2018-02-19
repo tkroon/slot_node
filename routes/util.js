@@ -119,11 +119,13 @@ exports.armspin = function() {
 
 exports.resetPromo = function() {
   background.stop();
+  led.stopLedSequence();
   clearTimeout(promoTimer);
-  promoTimer = setTimeout(function() {promo();}, promoDelay);
+  promoTimer = setTimeout(function() {util.promo();}, promoDelay);
 }
 
 exports.promo = function() {
-  background.stop(); 
+  util.resetPromo();
   background.play();
+  led.playLedSequence(promoseq.sequence);
 }
