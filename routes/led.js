@@ -92,7 +92,8 @@ exports.startRandomFade = function() {
   timer = setTimeout(function(){ led.startRandomFade(); }, time);
 }
 
-exports.playLedSequence = function(sequence, index = 0) {
+exports.playLedSequence = function(sequence, indexarg) {
+  var index = typeof indexarg  !== 'undefined' ?  indexarg  : 0;
   clearTimeout(seqTimer);
   var time = 0;
   var frame = sequence[index++];
