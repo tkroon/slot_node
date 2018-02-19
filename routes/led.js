@@ -7,6 +7,7 @@ var fs = require('fs');
 happyseq = require('../public/ledseq/happyseq.json');
 championseq = require('../public/ledseq/championseq.json');
 celebrateseq = require('../public/ledseq/celebrateseq.json');
+promoseq = require('../public/ledseq/promoseq.json');
 
 color = function(red,green,blue) {
   return new Colour(100-red,100-green,100-blue);

@@ -77,7 +77,7 @@ app.use(function(err, req, res, next) {
 io.on('connection', function(client) {  
     console.log('Client connected...');
     global.slotUi = client;
-    util.resetPromo();
+    util.promo();
 });
 
 server.listen(4200); 
