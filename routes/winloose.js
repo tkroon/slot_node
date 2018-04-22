@@ -79,7 +79,7 @@ router.get('/winnings', function(req, res, next) {
 });
 
 router.get('/paid/:userId', function(req, res, next) {
-    updatewin.run(1000, userId, function(err, row){
+    updatewin.run(resetBank, userId, function(err, row){
       if (err) {
         console.log(err);
         res.json({"Error": err});

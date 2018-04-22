@@ -83,6 +83,7 @@ exports.initUser = function(userId, callback) {
       console.log("Inserted New User: " + userId)
     } else if(row.winTotal == 0) {
       winTotal = resetBank;
+      updatewin.run(winTotal, userId);
     } else {
       winTotal = row.winTotal;
     }
