@@ -9,7 +9,7 @@ setStatus = function(multiplier, dollars, total) {
 router.put('/pay/:multiplier', function(req, res, next) {
   //console.log("inside PAY");
   led.stopRandomFade();
-  //spinsound.stop();
+  spinsound.stop();
   win.stop();
   var dollars = 0;
   var multiplier = parseInt(req.params.multiplier);

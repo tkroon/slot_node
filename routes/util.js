@@ -98,9 +98,9 @@ exports.moneyFormat = function numberWithCommas(x) {
 exports.armspin = function() {
   //console.log("bet: " + bet + " state: " + state);
   if( state == "bet" ){
-    //spinsound.stop();
+    spinsound.stop();
     win.stop();
-    //spinsound.play(); 
+    spinsound.play(); 
     state="spinning";
     armstate="down";
     led.startRandomFade();
