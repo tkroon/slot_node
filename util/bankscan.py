@@ -14,7 +14,8 @@ while(1==1):
     barcode = barcode[0] 
     result = str(barcode.data)
     barcode = [] #reset barcode data to empty set
-    if (result != currentResult):
+    #if (result != currentResult):
+    if (1==1):
       currentResult = result
       try:
         r=requests.get(url+result)

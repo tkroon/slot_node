@@ -81,6 +81,8 @@ exports.initUser = function(userId, callback) {
       winTotal = initialBank;
       putuser.run(userId,winTotal);
       console.log("Inserted New User: " + userId)
+    } else if(row.winTotal == 0) {
+      winTotal = resetBank;
     } else {
       winTotal = row.winTotal;
     }
