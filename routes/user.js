@@ -1,4 +1,7 @@
-var http = require('http');
+
+var Promise = require('es6-promise').Promise;
+http = require('http');
+util = require('./util.js');
 
 router.get('/user/:userId', function(req, res, next) {
   var userId = req.param('userId');
@@ -21,39 +24,6 @@ router.get('/user/:userId', function(req, res, next) {
     }
   })
 });
-
-getRemoteTotal = function(userId, host, port) {
-// Return a new promise.
-  console.log("getRemoteTotal - host: " + host);
-  return new Promise(function(resolve, reject) {
-    var options = {
-      host: host,
-      path: '/api/user/getTotal/' + userId,
-      port: port
-    };
-
-    var req =  http.get(options, function(res) {
-      console.log('STATUS: ' + res.statusCode);
-      console.log('HEADERS: ' + JSON.stringify(res.headers));
-      // Buffer the body entirely for processing as a whole.
-      var bodyChunks = [];
-      res.on('data', function(chunk) {
-        // You can process streamed parts here...
-        bodyChunks.push(chunk);
-      }).on('end', function() {
-        var body = Buffer.concat(bodyChunks);
-        console.log('RESPONSE: ' + body);
-        var parsed = JSON.parse(body);
-        resolve(parsed);
-      })
-    });
-
-    req.on('error', function(e) {
-      console.log('ERROR: ' + e.message);
-      resolve(JSON.parse('{"total": 0}'));
-    });
-  });
-}
 
 setRemotePaid = function(userId, host, port) {
   // Return a new promise.
@@ -102,8 +72,8 @@ router.get('/user/markRemotePaid/:userId', function(req, res, next) {
 
 router.get('/user/getTotal/:userId', function(req, res, next) {
   console.log("getting user total");
-  var userId = req.param('userId');
-  getuser.get(userId, function(err, row){
+  var userId = req.params.userId;
+  getuser.get(userId, function(err, row) {
     console.log(row);
     if (err) {
       console.log(err);
@@ -129,7 +99,7 @@ router.get('/user/payout/:userId', function(req, res, next) {
   beep.play();
   var promises = [];
   slotHosts.forEach(function(host){
-    promises.push(getRemoteTotal(userId,host,port));
+    promises.push(util.getRemoteTotal(userId,host,port));
   });
   Promise.all(promises)
     .then(function(results) {

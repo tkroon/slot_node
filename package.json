@@ -9,6 +9,7 @@
   "dependencies": {
     "aplay": "^1.1.0",
     "audio-loader": "^1.0.3",
+    "babylon": "^6.18.0",
     "body-parser": "~1.16.0",
     "color": "^1.0.3",
     "cookie-parser": "~1.4.3",

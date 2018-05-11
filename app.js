@@ -9,11 +9,12 @@ var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var index = require('./routes/index');
 var api = require('./routes/api');
+var ip = require("ip");
 var app = express();
 
 // slot machines
 slotHosts = ['192.168.1.200', '192.168.1.201'];
-//slotHosts = ['127.0.0.1'];
+//slotHosts = ['192.168.1.200'];
 port = 3000;
 
 // configured values 
@@ -63,6 +64,8 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
+
+myIp = ip.address();
 
 // error handler
 app.use(function(err, req, res, next) {

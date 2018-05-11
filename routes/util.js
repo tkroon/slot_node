@@ -1,3 +1,5 @@
+var Promise = require('es6-promise').Promise;
+
 exports.wait = function(ms){
   var start = new Date().getTime();
   var end = start;
@@ -129,4 +131,58 @@ exports.promo = function() {
   util.resetPromo();
   background.play();
   led.startRandomFade(50,2000); // default is max bright 100, fade delay 500 so this is dimmer and slower
+}
+
+exports.getRemoteTotal = function(userId, host, port) {
+  // Return a new promise.
+    console.log("getRemoteTotal - host: " + host + ":"+ port + "-" + userId);
+    return new Promise(function(resolve, reject) {
+      var options = {
+        host: host,
+        path: '/api/user/getTotal/' + userId,
+        port: port
+      };
+  
+      var req =  http.get(options, function(res) {
+        //console.log('STATUS: ' + res.statusCode);
+        //console.log('HEADERS: ' + JSON.stringify(res.headers));
+        // Buffer the body entirely for processing as a whole.
+        var bodyChunks = [];
+        res.on('data', function(chunk) {
+          // You can process streamed parts here...
+          bodyChunks.push(chunk);
+        }).on('end', function() {
+          var body = Buffer.concat(bodyChunks);
+          console.log('RESPONSE: ' + body);
+          var parsed = JSON.parse(body);
+          resolve(parsed);
+        })
+      });
+  
+      req.on('error', function(e) {
+        console.log('ERROR: ' + e.message);
+        resolve(JSON.parse('{"total": 0}'));
+      });
+    });
+  }
+
+exports.maxRemoteWinnings = function(userId, callback) {
+  var promises = [];
+  var total = 0;
+  slotHosts.forEach(function(host){
+    if (host != myIp)
+      promises.push(util.getRemoteTotal(userId,host,port));
+  });
+  Promise.all(promises)
+    .then(function(results) {
+      results.forEach(function(result){
+        var intTotal = parseInt(result.total);
+        if (intTotal > total) total = intTotal;
+      })
+      console.log("maxRemoteWinnings: " + total);
+      callback(total);
+    })
+  . catch(function(e) {
+      console.log("An Error");
+  });
 }
