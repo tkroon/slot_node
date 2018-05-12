@@ -77,12 +77,12 @@ router.get('/user/getTotal/:userId', function(req, res, next) {
     console.log(row);
     if (err) {
       console.log(err);
-      res.json({"total": 0});
+      res.json({"total": 0,"time": 0});
     }
     else if(row != undefined) {
-      res.json({"total": row.winTotal});
+      res.json({"total": row.winTotal,"time": row.getTime});
       if(currentUser == userId) currentUser = 0;
-    } else {res.json({"total": 0});}
+    } else {res.json({"total": 0, "time": 0});}
   });
 });
 
@@ -106,10 +106,16 @@ router.get('/user/payout/:userId', function(req, res, next) {
     .then(function(results) {
       console.log("All done", results);
       var total = 0;
+      var timestamp = 0;
       results.forEach(function(result){
-        // get the max winnings from best machine
+        // get the max winnings from machine whith newest timestamp
         var intTotal = parseInt(result.total);
-        if (intTotal > total) total = intTotal;
+        var timestampRes = parseInt(result.time);
+        console.log("Timestamp: " + timestampRes);
+        if (timestampRes > timestamp) {
+          timestamp = timestampRes
+          total = intTotal;
+        }
       })
       console.log("Total: " + total);
       if(total > 0) {

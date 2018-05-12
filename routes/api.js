@@ -13,11 +13,11 @@ require('./winloose.js');
 
 var dbfile = "./slot.db";
 var db = new sqlite3.Database(dbfile);
-putuser = db.prepare('INSERT into users (userId, winTotal, payout) values (?, ?, 0)');
-getuser = db.prepare('SELECT userId, winTotal from users where userId = ?')
-updatewin = db.prepare('UPDATE users set winTotal = winTotal + ? where userId = ?;')
-payout = db.prepare('UPDATE users set winTotal = 0, payout = payout + winTotal where userId = ?;')
-settotal = db.prepare('UPDATE users set winTotal = ? where userId = ?;')
+putuser = db.prepare('INSERT into users (userId, winTotal, payout, time) values (?, ?, 0, CURRENT_TIMESTAMP)');
+getuser = db.prepare('SELECT userId, winTotal, time from users where userId = ?')
+updatewin = db.prepare('UPDATE users set winTotal = winTotal + ?, time = CURRENT_TIMESTAMP where userId = ?;')
+payout = db.prepare('UPDATE users set winTotal = 0, payout = payout + winTotal,time = CURRENT_TIMESTAMP where userId = ?;')
+settotal = db.prepare('UPDATE users set winTotal = ?, time = CURRENT_TIMESTAMP where userId = ?;')
 
 /******************** Arm setup *******************/
 /* pressed = 0 (down or up) open = 1  in between  */
