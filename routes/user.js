@@ -110,7 +110,7 @@ router.get('/user/payout/:userId', function(req, res, next) {
       results.forEach(function(result){
         // get the max winnings from machine whith newest timestamp
         var intTotal = parseInt(result.total);
-        var timestampRes = parseInt(result.time);
+        var timestampRes = Date.parse(result.time);
         console.log("Timestamp: " + timestampRes);
         if (timestampRes > timestamp) {
           timestamp = timestampRes
