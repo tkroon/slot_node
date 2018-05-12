@@ -80,7 +80,7 @@ router.get('/user/getTotal/:userId', function(req, res, next) {
       res.json({"total": 0,"time": 0});
     }
     else if(row != undefined) {
-      res.json({"total": row.winTotal,"time": row.getTime});
+      res.json({"total": row.winTotal,"time": row.time});
       if(currentUser == userId) currentUser = 0;
     } else {res.json({"total": 0, "time": 0});}
   });
