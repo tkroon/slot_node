@@ -106,8 +106,9 @@ router.get('/user/payout/:userId', function(req, res, next) {
       console.log("All done", results);
       var total = 0;
       results.forEach(function(result){
+        // get the max winnings from best machine
         var intTotal = parseInt(result.total);
-        total += intTotal;
+        if (intTotal > total) total = intTotal;
       })
       console.log("Total: " + total);
       if(total > 0) {
