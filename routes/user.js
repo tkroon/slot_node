@@ -81,6 +81,7 @@ router.get('/user/getTotal/:userId', function(req, res, next) {
     }
     else if(row != undefined) {
       res.json({"total": row.winTotal});
+      if(currentUser == userId) currentUser = 0;
     } else {res.json({"total": 0});}
   });
 });
