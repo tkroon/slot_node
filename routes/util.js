@@ -184,5 +184,6 @@ exports.maxRemoteWinnings = function(userId, callback) {
     })
   . catch(function(e) {
       console.log("An Error");
+      callback(0);
   });
 }

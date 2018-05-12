@@ -26,7 +26,7 @@ betNow = function(userId) {
 router.get('/bet/:userId', function(req, res, next) {
   var userId = req.params.userId;
   var message = "";
-  var remoteTotal = 0;
+
   var promises = [];
   win.stop();
   util.resetPromo();
@@ -34,16 +34,15 @@ router.get('/bet/:userId', function(req, res, next) {
     if(userId != currentUser) {
       util.initUser(userId, function(total) {
         util.maxRemoteWinnings(userId, function(returnTotal) {
-          remoteTotal = returnTotal;
+          if(returnTotal > total) total = returnTotal;
+          winTotal = total;
+          settotal.run(winTotal, userId);
+          lastCash = winTotal;
+          bet = 0;
+          spins = 0;
+          message += betNow(userId);
+          console.log("Max Winnings: " + winTotal);
         });
-        if (remoteTotal > total) total = remoteTotal;
-        winTotal = total;
-        settotal.run(winTotal, userId);
-        lastCash = winTotal;
-        bet = 0;
-        spins = 0;
-        message += betNow(userId);
-        console.log("Max Winnings: " + winTotal);
       });
     } else if(spins >= maxSpins) {
       lastCash = winTotal;

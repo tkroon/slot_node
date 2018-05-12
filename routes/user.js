@@ -126,7 +126,6 @@ router.get('/user/payout/:userId', function(req, res, next) {
       console.log("An Error");
       res.json({'message': 'No Slot winnings found'});
   });
-  
-});      
+});
         
 module.exports = router;
