@@ -17,7 +17,7 @@ putuser = db.prepare('INSERT into users (userId, winTotal, payout) values (?, ?,
 getuser = db.prepare('SELECT userId, winTotal from users where userId = ?')
 updatewin = db.prepare('UPDATE users set winTotal = winTotal + ? where userId = ?;')
 payout = db.prepare('UPDATE users set winTotal = 0, payout = payout + winTotal where userId = ?;')
-zeroout = db.prepare('UPDATE users set winTotal = 0 where userId = ?;')
+settotal = db.prepare('UPDATE users set winTotal = ? where userId = ?;')
 
 /******************** Arm setup *******************/
 /* pressed = 0 (down or up) open = 1  in between  */

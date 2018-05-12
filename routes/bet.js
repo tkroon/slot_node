@@ -38,12 +38,12 @@ router.get('/bet/:userId', function(req, res, next) {
         });
         if (remoteTotal > total) total = remoteTotal;
         winTotal = total;
-        updatewin.run(winTotal, userId);
+        settotal.run(winTotal, userId);
         lastCash = winTotal;
         bet = 0;
         spins = 0;
         message += betNow(userId);
-        console.log("Current Winnings Total: " + winTotal);
+        console.log("Max Winnings: " + winTotal);
       });
     } else if(spins >= maxSpins) {
       lastCash = winTotal;
