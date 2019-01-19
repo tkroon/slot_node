@@ -1,3 +1,5 @@
+var fs = require('fs');
+
 var Promise = require('es6-promise').Promise;
 
 exports.wait = function(ms){
@@ -90,6 +92,15 @@ exports.initUser = function(userId, callback) {
       winTotal = row.winTotal;
     }
     //console.log("inside initUser winTotal: " + winTotal);
+    // copy default image into tape 
+    sysCmd.system("cp slot_tape_2019.png slot_tape.png");
+    // find user's image and overlay it if found
+    //playermug = userId + '.png'
+    playermug = '../public/images/paw.png';
+    if (fs.existsSync(playermug)) {
+      sysCmd.system("convert -composite -gravity south background.png " + playermug + " temp.png");
+      sysCmd.system("convert -composite -gravity south slot_tape_facetmplate_2019.png temp.png slot_tape.png");
+    }
     callback(winTotal);
   });
 }

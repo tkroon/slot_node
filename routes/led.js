@@ -3,7 +3,6 @@ var util = require('./util.js');
 var RgbChannel = require('rpi-rgb').Channel;
 var Colour = require('rpi-rgb').Colour;
 var stripled = new RgbChannel(2,5,4);
-var fs = require('fs');
 happyseq = require('../public/ledseq/happyseq.json');
 championseq = require('../public/ledseq/championseq.json');
 celebrateseq = require('../public/ledseq/celebrateseq.json');

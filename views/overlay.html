@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Slot Machine in Javascript</title>
+    <meta name="description" content="Welcome to Slot Machine"> 
+    <meta name="keywords" content="javascript, jquery, spritely, animation, sprite">
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
+
+    <script src="./javascripts/jquery.min.js"></script>
+    <script src="./javascripts/jquery.spritely.js"></script>
+  
+	<style>
+    .overlapthis1 {
+        background-image:url("./images/longtest.png");
+        width:250px;
+        height:281px;
+        left:50px; /* play around with this */
+        position:absolute;
+        top:50px; /* and play around with this */
+        background-size: 75%,75%;
+    }
+    
+    .overlapthis {
+        background-image:url("./images/longtest.png");
+        width:250px;
+        height:281px;
+        float:bottom;
+        border:1px solid #2ea0f7;
+        position:absolute;
+        background-size: 100%,250px;
+    }
+
+    .slottest {
+        background:url("./images/slot_images_tape4.jpg") repeat-y; 
+        width:250px;
+        height:281px;
+        float:left;
+        border:1px solid #2ea0f7;
+        background-position:relative;
+        background-size: 100%,250px;
+    }
+	</style>
+</head>
+<body>
+
+<div id="slot1" class="slottest"></div>
+<div id="tid" class="overlapthis"></div>
+
+</body>
+<script>
+        $('#tid').pan({
+            fps:30,
+            dir:'down',
+            speed:5
+        });
+
+        $('#slot1').pan({
+            fps:30,
+            dir:'down',
+            speed:5
+        });
+
+</script>
+</html>
