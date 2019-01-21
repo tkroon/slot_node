@@ -64,17 +64,21 @@
 <script>  
  ioServer = location.protocol + '//' + location.hostname + ":4200";
  var socket = io.connect(ioServer);
+ var lastId = 0;
 
  socket.on('messages', function(data) {
 	var res = data.split("|");
 	adjustment=0;
 	bet = res[1];
+	userId = res[3];
+	
 	if(res[0] == 'spin' && $('#control').attr("disabled", false)) 
 	{
 		$('#result').html('<div class="alert">Cash-out at bank when done</div>');
 		$('#control').click();
 		showCalc();
 	} else if(res[0]=='show') {
+		if(userId != lastId) reloadTape();
 		showCalc();
 		if(bet == '') {
 			adjustment = res[6];
@@ -91,5 +95,6 @@
 	} else if(res[0]=='over') {
 		hideCalc(res[4]);
 	}
+	lastId = userId;
  });
 </script> 

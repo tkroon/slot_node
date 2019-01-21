@@ -36,6 +36,20 @@ function promo(sound,action) {
     });
 }
 
+function reloadTape() {
+    var myString = 'url("../images/slot_tape.png?ver=' + Math.random() + ') repeat-y';
+    $('.slot').css('background', myString);
+    $('.slot').css('width', '250px');
+    $('.slot').css('height', '281px');
+    $('.slot').css('float', 'left');
+    $('.slot').css('border', '1px solid #2ea0f7');
+    $('.slot').css('background-position', '0 0x');
+    $('.slot').css('background-size', '100%,250px');
+
+    $('.slot-wrapper').hide();
+    $('.slot-wrapper').show();
+}
+
 $(document).ready(function() {
     /**
     * Global variables

@@ -1,5 +1,6 @@
 var fs = require('fs');
-
+var im = require('imagemagick');
+var cp = require("child_process");
 var Promise = require('es6-promise').Promise;
 
 exports.wait = function(ms){
@@ -11,7 +12,6 @@ exports.wait = function(ms){
 }
 
 exports.say = function(words){
-  var cp = require("child_process");
   var process = cp.spawn('/usr/bin/python',['util/talk.py','-t "' + words + '"']);
 }
 
@@ -91,15 +91,34 @@ exports.initUser = function(userId, callback) {
     } else {
       winTotal = row.winTotal;
     }
-    //console.log("inside initUser winTotal: " + winTotal);
-    // copy default image into tape 
-    sysCmd.system("cp slot_tape_2019.png slot_tape.png");
-    // find user's image and overlay it if found
-    //playermug = userId + '.png'
-    playermug = '../public/images/paw.png';
-    if (fs.existsSync(playermug)) {
-      sysCmd.system("convert -composite -gravity south background.png " + playermug + " temp.png");
-      sysCmd.system("convert -composite -gravity south slot_tape_facetmplate_2019.png temp.png slot_tape.png");
+    var imgpath = 'public/images/';
+    var playermug = imgpath + 'paw.png';
+    var background = imgpath + "background.png";
+    var template = imgpath + "slot_tape_facetemplate_2019.png";
+    var player_tape = imgpath + "player_tape.png";
+    var slot_tape = imgpath + "slot_tape.png";
+    var slot_tape_default = imgpath + 'slot_tape_2019.png';
+
+    // for testing only
+    if (userId==7) playermug = imgpath + 'F.png';
+    // find user's image and overlay it if found    
+
+    if (fs.existsSync(playermug) || true) {
+      console.log('*** before image convert');
+      im.convert(["-composite", "-gravity", "south", background, playermug, player_tape],
+      function(err, stdout){
+        if (err) throw err;
+          console.log('stdout:', stdout);
+        im.convert(["-composite", "-gravity", "south", player_tape, template, slot_tape],
+        function(err, stdout){
+          if (err) throw err;
+            console.log('stdout:', stdout);
+        });
+      });
+      console.log('*** after image convert');
+    } else {
+      // copy default image into tape 
+      var childProcess = cp.spawn('cp',[slot_tape_default, slot_tape]);
     }
     callback(winTotal);
   });

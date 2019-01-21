@@ -26,7 +26,7 @@ body {
 	background-color: white;
 }
 .slot {
-	background:url("../images/slot_tape.jpg") repeat-y; 
+	background:url("../images/slot_tape.png") repeat-y; 
 	width:250px;
 	height:281px;
 	float:left;
