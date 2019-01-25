@@ -142,7 +142,7 @@ router.get('/user/payout/:userId', function(req, res, next) {
   });
 });
        
-router.get('/user/leaders/', function(req, res, next) {
+router.get('/user/leaders', function(req, res, next) {
   util.getLeaderBoard()
 });
 
