@@ -3,6 +3,9 @@ var im = require('imagemagick');
 var cp = require("child_process");
 var Promise = require('es6-promise').Promise;
 
+var imgpath = 'public/images/';
+var mugpath = imgpath + 'seniors/'
+
 exports.wait = function(ms){
   var start = new Date().getTime();
   var end = start;
@@ -90,7 +93,6 @@ exports.initUser = function(userId, callback) {
     }
     
     var mugimage = "";
-    var imgpath = 'public/images/';
     var background = imgpath + "background.png";
     var template = imgpath + "slot_tape_facetemplate_2019.png";
     var player_tape = imgpath + "player_tape.png";
@@ -108,7 +110,7 @@ exports.initUser = function(userId, callback) {
       else if(row != undefined) {
         mugimage = row.imageName;
         console.log("Mug: " + mugimage);
-        var playermug = imgpath + 'seniors/' + mugimage;   
+        var playermug = mugpath + mugimage;   
         console.log("playermug: " + playermug);
         if (mugimage != "" && fs.existsSync(playermug)) {
           console.log('*** before image convert');
@@ -253,5 +255,18 @@ exports.scanRemoteHosts = function(callback) {
     .catch(function(e) {
       console.log("An Error");
       callback(0);
+  });
+}
+
+exports.getLeaderBoard = function(callback) {
+  gettopwinners.get(function(err, row){
+    console.log("Winner: " + row);
+    if (err) {
+      console.log(err);
+    }
+    else if(row != undefined) {
+      var playermug = mugpath + row.imageName; 
+      console.log("Payout: " + row.payout + " Player: " + playermug);
+    }
   });
 }

@@ -141,5 +141,9 @@ router.get('/user/payout/:userId', function(req, res, next) {
       res.json({'message': 'No Slot winnings found'});
   });
 });
-        
+       
+router.get('/user/leaders/', function(req, res, next) {
+  util.getLeaderBoard()
+});
+
 module.exports = router;

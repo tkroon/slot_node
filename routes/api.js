@@ -19,6 +19,7 @@ updatewin = db.prepare('UPDATE users set winTotal = winTotal + ?, time = CURRENT
 payout = db.prepare('UPDATE users set winTotal = 0, payout = payout + winTotal,time = CURRENT_TIMESTAMP where userId = ?;')
 settotal = db.prepare('UPDATE users set winTotal = ?, time = CURRENT_TIMESTAMP where userId = ?;')
 getuserimage = db.prepare('SELECT imageName from image_lookup where userId = ?')
+gettopwinners = db.prepare('SELECT users.payout, image_lookup.imageName from users, image_lookup where users.userId = image_lookup.userId order by payout desc limit 5')
 
 /******************** Arm setup *******************/
 /* pressed = 0 (down or up) open = 1  in between  */
