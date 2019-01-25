@@ -253,7 +253,7 @@ exports.scanRemoteHosts = function(callback) {
       callback(1);
     })
     .catch(function(e) {
-      console.log("An Error");
+      console.log("An Error: " + e.message);
       callback(0);
   });
 }
