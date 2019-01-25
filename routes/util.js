@@ -12,7 +12,7 @@ exports.wait = function(ms){
 }
 
 exports.say = function(words){
-  var process = cp.spawn('/usr/bin/python',['util/talk.py','-t "' + words + '"']);
+  cp.spawn('/usr/bin/python',['util/talk.py','-t "' + words + '"']);
 }
 
 exports.selftest = function(){
@@ -53,9 +53,6 @@ exports.getStatus = function(multiplier, dollars, total)  {
 }
 
 exports.getSpinMessage = function(multiplier, dollars, total)  {
-  var dollarInt = parseInt(dollars);
-  var totalInt = parseInt(total);
-  var multiplierInt = parseInt(multiplier);
   var message = "";
   if (multiplier == 0)
   {
@@ -91,35 +88,44 @@ exports.initUser = function(userId, callback) {
     } else {
       winTotal = row.winTotal;
     }
+    
+    var mugimage = "";
     var imgpath = 'public/images/';
-    var playermug = imgpath + 'paw.png';
     var background = imgpath + "background.png";
     var template = imgpath + "slot_tape_facetemplate_2019.png";
     var player_tape = imgpath + "player_tape.png";
     var slot_tape = imgpath + "slot_tape.png";
-    var slot_tape_default = imgpath + 'slot_tape_2019.png';
+    var slot_tape_default = imgpath + 'slot_tape_2019.png'; 
 
-    // for testing only
-    if (userId==7) playermug = imgpath + 'F.png';
-    // find user's image and overlay it if found    
+    // copy default image into tape 
+    cp.spawn('cp',[slot_tape_default, slot_tape]);
 
-    if (fs.existsSync(playermug) || true) {
-      console.log('*** before image convert');
-      im.convert(["-composite", "-gravity", "south", background, playermug, player_tape],
-      function(err, stdout){
-        if (err) throw err;
-          console.log('stdout:', stdout);
-        im.convert(["-composite", "-gravity", "south", player_tape, template, slot_tape],
-        function(err, stdout){
-          if (err) throw err;
-            console.log('stdout:', stdout);
-        });
-      });
-      console.log('*** after image convert');
-    } else {
-      // copy default image into tape 
-      var childProcess = cp.spawn('cp',[slot_tape_default, slot_tape]);
-    }
+    getuserimage.get(userId, function(err, row){
+      console.log("Mug row: " + row);
+      if (err) {
+        console.log(err);
+      }
+      else if(row != undefined) {
+        mugimage = row.imageName;
+        console.log("Mug: " + mugimage);
+        var playermug = imgpath + 'seniors/' + mugimage;   
+        console.log("playermug: " + playermug);
+        if (mugimage != "" && fs.existsSync(playermug)) {
+          console.log('*** before image convert');
+          im.convert(["-composite", "-gravity", "south", background, playermug, player_tape],
+          function(err, stdout){
+            if (err) throw err;
+              console.log('stdout:', stdout);
+            im.convert(["-composite", "-gravity", "south", player_tape, template, slot_tape],
+            function(err, stdout){
+              if (err) throw err;
+                console.log('stdout:', stdout);
+            });
+          });
+          console.log('*** after image convert');
+        }
+      }
+    });
     callback(winTotal);
   });
 }
@@ -185,13 +191,14 @@ exports.getRemoteTotal = function(userId, host, port) {
           var body = Buffer.concat(bodyChunks);
           console.log('RESPONSE: ' + body);
           var parsed = JSON.parse(body);
+          parsed.host = host;
           resolve(parsed);
         })
       });
   
       req.on('error', function(e) {
         console.log('ERROR: ' + e.message);
-        resolve(JSON.parse('{"total": 0}'));
+        resolve(JSON.parse('{"total": 0, "inactivehost": "' + host +'"}'));
       });
     });
   }
@@ -199,7 +206,7 @@ exports.getRemoteTotal = function(userId, host, port) {
 exports.maxRemoteWinnings = function(userId, callback) {
   var promises = [];
   var total = 0;
-  slotHosts.forEach(function(host){
+  activeHosts.forEach(function(host){
     if (host != myIp)
       promises.push(util.getRemoteTotal(userId,host,port));
   });
@@ -208,11 +215,42 @@ exports.maxRemoteWinnings = function(userId, callback) {
       results.forEach(function(result){
         var intTotal = parseInt(result.total);
         if (intTotal > total) total = intTotal;
+        // remove inactive host
+        if (total == 0 && result.hasOwnProperty('inactivehost')) {
+          const index = activeHosts.indexOf(result.inactivehost)
+          activeHosts.splice(index, 1);
+        }
       })
       console.log("maxRemoteWinnings: " + total);
+      console.log("Active Hosts: " + activeHosts.toString());
       callback(total);
     })
   . catch(function(e) {
+      console.log("An Error");
+      callback(0);
+  });
+}
+
+exports.scanRemoteHosts = function(callback) {
+  hostTimer = setTimeout(function() {util.scanRemoteHosts();}, hostDelay);
+  var promises = [];
+  allHosts.forEach(function(host){
+    if (host != myIp && activeHosts.indexOf(host) == -1)
+        promises.push(util.getRemoteTotal(1,host,port));
+  });
+  Promise.all(promises)
+    .then(function(results) {
+      results.forEach(function(result){
+        if (!result.hasOwnProperty('inactivehost')) {
+          if(activeHosts.indexOf(result.host) == -1)
+            activeHosts.push(result.host);
+        }
+      })
+      console.log("All Hosts: " + allHosts.toString());
+      console.log("Active Hosts: " + activeHosts.toString());
+      callback(1);
+    })
+    .catch(function(e) {
       console.log("An Error");
       callback(0);
   });

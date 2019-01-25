@@ -57,7 +57,7 @@ setRemotePaid = function(userId, host, port) {
 router.get('/user/markRemotePaid/:userId', function(req, res, next) {
   var userId = req.params.userId;
   var promises = [];
-  slotHosts.forEach(function(host){
+  activeHosts.forEach(function(host){
     promises.push(setRemotePaid(userId,host,port));
   });
   Promise.all(promises)
@@ -73,6 +73,9 @@ router.get('/user/markRemotePaid/:userId', function(req, res, next) {
 router.get('/user/getTotal/:userId', function(req, res, next) {
   console.log("getting user total");
   var userId = req.params.userId;
+  // add this requester to activeHosts if not already there
+  if(activeHosts.indexOf(req.host) == -1)
+    activeHosts.push(req.host);
   getuser.get(userId, function(err, row) {
     console.log(row);
     if (err) {
@@ -103,7 +106,7 @@ router.get('/user/payout/:userId', function(req, res, next) {
     + '|0|<span class="alert"><img v-align="middle" height="30" width="30" src="../../images/progress.gif"/> getting Total</span>');
   beep.play();
   var promises = [];
-  slotHosts.forEach(function(host){
+  activeHosts.forEach(function(host){
     promises.push(util.getRemoteTotal(userId,host,port));
   });
   Promise.all(promises)

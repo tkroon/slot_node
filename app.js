@@ -13,8 +13,8 @@ var ip = require("ip");
 var app = express();
 
 // slot machines
-slotHosts = ['192.168.1.200', '192.168.1.201'];
-//slotHosts = ['192.168.1.200'];
+allHosts = ['192.168.1.200', '192.168.1.201'];
+activeHosts = allHosts;
 port = 3000;
 
 // configured values 
@@ -35,7 +35,9 @@ lastCash = 0;
 randomfadetimer = null;
 seqTimer = null;
 promoTimer = null;
+hostTimer = null;
 promoDelay = 1000 * 60 * 1.5; // 1000ms/sec * 60 sec/min * minutes delay before casino promo sounds
+hostDelay = 1000 * 60 * 7; // 1000ms/sec * 60 sec/min * minutes delay before hosts are rescanned
 
 // save socket variables
 mySocket = io;
@@ -82,6 +84,7 @@ io.on('connection', function(client) {
     console.log('Client connected...');
     global.slotUi = client;
     util.promo();
+    util.scanRemoteHosts();
 });
 
 server.listen(4200); 
