@@ -12,14 +12,14 @@ require('./user.js');
 require('./winloose.js');
 
 var dbfile = "./slot.db";
-var db = new sqlite3.Database(dbfile);
+db = new sqlite3.Database(dbfile);
 putuser = db.prepare('INSERT into users (userId, winTotal, payout, time) values (?, ?, 0, CURRENT_TIMESTAMP)');
 getuser = db.prepare('SELECT userId, winTotal, time from users where userId = ?')
 updatewin = db.prepare('UPDATE users set winTotal = winTotal + ?, time = CURRENT_TIMESTAMP where userId = ?;')
 payout = db.prepare('UPDATE users set winTotal = 0, payout = payout + winTotal,time = CURRENT_TIMESTAMP where userId = ?;')
 settotal = db.prepare('UPDATE users set winTotal = ?, time = CURRENT_TIMESTAMP where userId = ?;')
 getuserimage = db.prepare('SELECT imageName from image_lookup where userId = ?')
-gettopwinners = db.prepare('SELECT users.payout, image_lookup.imageName from users, image_lookup where users.userId = image_lookup.userId order by payout desc limit 5')
+gettopwinners = 'SELECT users.payout, image_lookup.imageName from users, image_lookup where users.userId = image_lookup.userId order by payout desc limit 5';
 
 /******************** Arm setup *******************/
 /* pressed = 0 (down or up) open = 1  in between  */
@@ -66,6 +66,13 @@ router.get('/status', function(req, res, next) {
       won: winTotal,
       spins: spins
     })
+  });
+});
+
+router.get('/leaders', function(req, res, next) {
+  util.getLeaderBoard(function(result) { 
+    res.setHeader('Content-Type', 'application/json');
+    res.json(result);
   });
 });
 

@@ -71,7 +71,7 @@ router.get('/user/markRemotePaid/:userId', function(req, res, next) {
 });
 
 router.get('/user/getTotal/:userId', function(req, res, next) {
-  console.log("getting user total");
+  console.log("getting user total: " + req.host);
   var userId = req.params.userId;
   // add this requester to activeHosts if not already there
   if(activeHosts.indexOf(req.host) == -1)
@@ -140,10 +140,6 @@ router.get('/user/payout/:userId', function(req, res, next) {
       console.log("An Error");
       res.json({'message': 'No Slot winnings found'});
   });
-});
-       
-router.get('/user/leaders', function(req, res, next) {
-  util.getLeaderBoard()
 });
 
 module.exports = router;

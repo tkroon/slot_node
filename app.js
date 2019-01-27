@@ -84,7 +84,7 @@ io.on('connection', function(client) {
     console.log('Client connected...');
     global.slotUi = client;
     util.promo();
-    util.scanRemoteHosts();
+    //util.scanRemoteHosts();
 });
 
 server.listen(4200); 

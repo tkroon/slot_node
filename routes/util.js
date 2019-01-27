@@ -30,7 +30,7 @@ exports.selftest = function(){
 }
 
 exports.getWinTotal = function(callback) {
-  getuser.get(currentUser, function(err, row){
+  getuser.get(currentUser, function(err, row) {
     var total = 0;
     if (err) {
       console.log(err);
@@ -182,8 +182,6 @@ exports.getRemoteTotal = function(userId, host, port) {
       };
   
       var req =  http.get(options, function(res) {
-        //console.log('STATUS: ' + res.statusCode);
-        //console.log('HEADERS: ' + JSON.stringify(res.headers));
         // Buffer the body entirely for processing as a whole.
         var bodyChunks = [];
         res.on('data', function(chunk) {
@@ -205,6 +203,7 @@ exports.getRemoteTotal = function(userId, host, port) {
     });
   }
 
+// called from each bet when user changes
 exports.maxRemoteWinnings = function(userId, callback) {
   var promises = [];
   var total = 0;
@@ -233,6 +232,7 @@ exports.maxRemoteWinnings = function(userId, callback) {
   });
 }
 
+/*
 exports.scanRemoteHosts = function(callback) {
   hostTimer = setTimeout(function() {util.scanRemoteHosts();}, hostDelay);
   var promises = [];
@@ -242,14 +242,16 @@ exports.scanRemoteHosts = function(callback) {
   });
   Promise.all(promises)
     .then(function(results) {
-      results.forEach(function(result){
-        if (!result.hasOwnProperty('inactivehost')) {
-          if(activeHosts.indexOf(result.host) == -1)
-            activeHosts.push(result.host);
-        }
-      })
-      console.log("All Hosts: " + allHosts.toString());
-      console.log("Active Hosts: " + activeHosts.toString());
+        console.log("check1");
+        results.forEach(function(result){
+          console.log("check2");
+          if (!result.hasOwnProperty('inactivehost')) {
+            if(activeHosts.indexOf(result.inactivehost) == -1)
+              activeHosts.push(result.host);
+          }
+        })
+        console.log("All Hosts: " + allHosts.toString());
+        console.log("Active Hosts: " + activeHosts.toString());
       callback(1);
     })
     .catch(function(e) {
@@ -257,16 +259,18 @@ exports.scanRemoteHosts = function(callback) {
       callback(0);
   });
 }
+*/
 
 exports.getLeaderBoard = function(callback) {
-  gettopwinners.get(function(err, row){
-    console.log("Winner: " + row);
-    if (err) {
-      console.log(err);
-    }
-    else if(row != undefined) {
+  db.all(gettopwinners, function(err, rows) {
+    var leaders = '{"leaders":[';
+    rows.forEach(function (row) {
       var playermug = mugpath + row.imageName; 
       console.log("Payout: " + row.payout + " Player: " + playermug);
-    }
-  });
+      leaders += '{"payout": "' + row.payout + '", "image": "' + playermug +'"},';
+    })
+    leaders = leaders.substring(0,leaders.length-1);
+    leaders += ']}'
+    callback(JSON.parse(leaders))
+  });	
 }
