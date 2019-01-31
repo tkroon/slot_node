@@ -262,7 +262,8 @@ exports.scanRemoteHosts = function() {
           //console.log("check2");
           if (result.hasOwnProperty('inactivehost')) {
             const index = activeHosts.indexOf(result.inactivehost)
-            activeHosts.splice(index, 1);
+            if(index != -1)
+              activeHosts.splice(index, 1);
           }  else {
             if(activeHosts.indexOf(result.host) == -1)
               activeHosts.push(result.host);
