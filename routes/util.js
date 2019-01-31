@@ -223,6 +223,7 @@ exports.maxRemoteWinnings = function(userId, callback) {
         }
       })
       console.log("maxRemoteWinnings: " + total);
+      console.log("All Hosts: " + allHosts.toString());
       console.log("Active Hosts: " + activeHosts.toString());
       callback(total);
     })
@@ -232,34 +233,6 @@ exports.maxRemoteWinnings = function(userId, callback) {
   });
 }
 
-/*
-exports.scanRemoteHosts = function(callback) {
-  hostTimer = setTimeout(function() {util.scanRemoteHosts();}, hostDelay);
-  var promises = [];
-  allHosts.forEach(function(host){
-    if (host != myIp && activeHosts.indexOf(host) == -1)
-        promises.push(util.getRemoteTotal(1,host,port));
-  });
-  Promise.all(promises)
-    .then(function(results) {
-        console.log("check1");
-        results.forEach(function(result){
-          console.log("check2");
-          if (!result.hasOwnProperty('inactivehost')) {
-            if(activeHosts.indexOf(result.inactivehost) == -1)
-              activeHosts.push(result.host);
-          }
-        })
-        console.log("All Hosts: " + allHosts.toString());
-        console.log("Active Hosts: " + activeHosts.toString());
-      callback(1);
-    })
-    .catch(function(e) {
-      console.log("An Error: " + e.message);
-      callback(0);
-  });
-}
-*/
 
 exports.getLeaderBoard = function(callback) {
   db.all(gettopwinners, function(err, rows) {
@@ -273,4 +246,34 @@ exports.getLeaderBoard = function(callback) {
     leaders += ']}'
     callback(JSON.parse(leaders))
   });	
+}
+
+exports.scanRemoteHosts = function() {
+  setTimeout(function() {util.scanRemoteHosts();}, hostDelay);
+  var promises = [];
+  allHosts.forEach(function(host){
+    if (host != myIp)
+        promises.push(util.getRemoteTotal(1,host,port));
+  });
+  Promise.all(promises)
+    .then(function(results) {
+        //console.log("check1");
+        results.forEach(function(result){
+          //console.log("check2");
+          if (result.hasOwnProperty('inactivehost')) {
+            const index = activeHosts.indexOf(result.inactivehost)
+            activeHosts.splice(index, 1);
+          }  else {
+            if(activeHosts.indexOf(result.host) == -1)
+              activeHosts.push(result.host);
+          }
+        })
+        console.log("All Hosts: " + allHosts.toString());
+        console.log("Active Hosts: " + activeHosts.toString());
+      return 1;
+    })
+    .catch(function(e) {
+      console.log("An Error: " + e.message);
+      return 0;
+  });
 }

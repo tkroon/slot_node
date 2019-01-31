@@ -14,7 +14,7 @@ var app = express();
 
 // slot machines
 allHosts = ['192.168.1.200', '192.168.1.201'];
-activeHosts = allHosts;
+activeHosts = allHosts.slice();
 port = 3000;
 
 // configured values 
@@ -84,7 +84,7 @@ io.on('connection', function(client) {
     console.log('Client connected...');
     global.slotUi = client;
     util.promo();
-    //util.scanRemoteHosts();
+    util.scanRemoteHosts();
 });
 
 server.listen(4200); 
