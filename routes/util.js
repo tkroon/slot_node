@@ -74,6 +74,7 @@ exports.getSpinMessage = function(multiplier, dollars, total)  {
   return message;
 }
 
+ 
 exports.initUser = function(userId, callback) {
   currentUser = userId;
   getuser.get(userId, function(err, row){
@@ -91,50 +92,38 @@ exports.initUser = function(userId, callback) {
     } else {
       winTotal = row.winTotal;
     }
-    
-    var mugimage = "";
-    var background = imgpath + "background.png";
-    var template = imgpath + "slot_tape_facetemplate_2019.png";
-    var player_tape = imgpath + "player_tape.png";
-    var slot_tape = imgpath + "slot_tape.png";
-    var slot_tape_default = imgpath + 'slot_tape_2019.png'; 
 
-    // copy default image into tape 
-    cp.spawn('cp',[slot_tape_default, slot_tape]);
+    var mugimage = "";
+    var slot_tape_default = imgpath + 'slot_tape_2019.png';
+    var slot_tape = imgpath + "slot_tape.png";
 
     getuserimage.get(userId, function(err, row){
-      console.log("Mug row: " + row);
+      //console.log("Mug row: " + row);
       if (err) {
-        console.log(err);
+        console.log(err.message);
+        callback(winTotal);
       }
       else if(row != undefined) {
         mugimage = row.imageName;
-        console.log("Mug: " + mugimage);
-        var playermug = mugpath + mugimage;   
+        var playermug = mugpath + mugimage;
         console.log("playermug: " + playermug);
-        if (mugimage != "" && fs.existsSync(playermug)) {
-          console.log('*** before image convert');
-          im.convert(["-composite", "-gravity", "south", background, playermug, player_tape],
-          function(err, stdout){
-            if (err) {
-              console.log('im.convert 1 error: ' + err.message);
-            }
-            im.convert(["-composite", "-gravity", "south", player_tape, template, slot_tape],
-            function(err, stdout){
-              if (err) {
-                console.log('im.convert 2 2 error: ' + err.message);
-              }
-              console.log('callback total');
-              callback(winTotal);
-            });
-          });
-        }
       }
+      if (mugimage != "" && fs.existsSync(playermug)) {
+        // use player's shield image
+        child = cp.spawn('cp',[playermug, slot_tape]);
+      } else {
+        // copy default image into tape
+        child = cp.spawn('cp',[slot_tape_default, slot_tape]);
+      }
+      child.on('exit', function (code, signal) {
+        console.log('child process exited with');
+        callback(winTotal);
+      });
     });
-    //callback(winTotal);
   });
 }
 
+ 
 exports.moneyFormat = function numberWithCommas(x) {
   var parts = x.toString().split(".");
   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
