@@ -5,3 +5,4 @@ slot.db
 *.log
 *.log.*
 *.out
+public/images/seniors/*
