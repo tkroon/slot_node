@@ -116,19 +116,22 @@ exports.initUser = function(userId, callback) {
           console.log('*** before image convert');
           im.convert(["-composite", "-gravity", "south", background, playermug, player_tape],
           function(err, stdout){
-            if (err) throw err;
-              console.log('stdout:', stdout);
+            if (err) {
+              console.log('im.convert 1 error: ' + err.message);
+            }
             im.convert(["-composite", "-gravity", "south", player_tape, template, slot_tape],
             function(err, stdout){
-              if (err) throw err;
-                console.log('stdout:', stdout);
+              if (err) {
+                console.log('im.convert 2 2 error: ' + err.message);
+              }
+              console.log('callback total');
+              callback(winTotal);
             });
           });
-          console.log('*** after image convert');
         }
       }
     });
-    callback(winTotal);
+    //callback(winTotal);
   });
 }
 
