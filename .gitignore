@@ -6,3 +6,5 @@ slot.db
 *.log.*
 *.out
 public/images/seniors/*
+public/images/slot_tape.png
+public/images/player_tape.png
