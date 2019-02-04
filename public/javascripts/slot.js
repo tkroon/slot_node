@@ -48,6 +48,7 @@ function reloadTape() {
 
     $('.slot-wrapper').hide();
     $('.slot-wrapper').show();
+    $('#refresh').click();
 }
 
 $(document).ready(function() {
@@ -160,6 +161,8 @@ $(document).ready(function() {
     * Finds the final position of the slot
     */
     Slot.prototype.finalPos = function() {
+        if(role_stop == undefined)
+            role_stop = new Audio('../sounds/role_stop.mp3');
         role_stop.play();
         var el = this.el,
             el_id,
@@ -209,6 +212,29 @@ $(document).ready(function() {
                 completed ++;
             }
         });
+    };
+
+    /**
+    * @method seeklastpos
+    * Set a slot to a specific position
+    */
+    Slot.prototype.seeklastpos = function() {
+        var el = this.el,
+            el_id,
+            pos;
+        el_id = $(el).attr('id');
+        //alert('seekpos: ' + el_id + ' thispos: ' + this.pos + 'sprite: ' + $._spritely.instances[el_id]['t']);
+        pos = $._spritely.instances[el_id]['t']; 
+        if (pos != null) {
+            pos += imgHeight;
+            bgPos = "0 " + pos + "px";
+            $(el).animate({
+                backgroundPosition:"(" + bgPos + ")"
+            }, {
+                duration: 0,
+                complete: function() {}
+            });
+        }
     };
 
     /**
@@ -302,6 +328,13 @@ $(document).ready(function() {
     var a = new Slot('#slot1', 30, 1),
         b = new Slot('#slot2', 45, 2),
         c = new Slot('#slot3', 70, 3);
+
+    // seek last tape position after refresh
+    $('#refresh').click(function() {
+        a.seeklastpos();
+        b.seeklastpos();
+        c.seeklastpos();
+    });
 
     /**
     * Slot machine controller

@@ -214,9 +214,9 @@ exports.maxRemoteWinnings = function(userId, callback) {
           activeHosts.splice(index, 1);
         }
       })
-      console.log("maxRemoteWinnings: " + total);
-      console.log("All Hosts: " + allHosts.toString());
-      console.log("Active Hosts: " + activeHosts.toString());
+      //console.log("maxRemoteWinnings: " + total);
+      //console.log("All Hosts: " + allHosts.toString());
+      //console.log("Active Hosts: " + activeHosts.toString());
       callback(total);
     })
   . catch(function(e) {
@@ -261,8 +261,8 @@ exports.scanRemoteHosts = function() {
               activeHosts.push(result.host);
           }
         })
-        console.log("All Hosts: " + allHosts.toString());
-        console.log("Active Hosts: " + activeHosts.toString());
+        //console.log("All Hosts: " + allHosts.toString());
+        //console.log("Active Hosts: " + activeHosts.toString());
       return 1;
     })
     .catch(function(e) {

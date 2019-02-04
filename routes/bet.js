@@ -42,6 +42,7 @@ router.get('/bet/:userId', function(req, res, next) {
           spins = 0;
           message += betNow(userId);
           console.log("Max Winnings: " + winTotal);
+          mySocket.sockets.emit('messages', 'refresh|');
         });
       });
     } else if(spins >= maxSpins) {

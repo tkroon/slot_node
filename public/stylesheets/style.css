@@ -144,6 +144,10 @@ button {
 	display: none;
 }
 
+#refresh {
+	display: none;
+}
+
 .status {
 	font-family: "Sigmar One";
 	font-size: 20px;
